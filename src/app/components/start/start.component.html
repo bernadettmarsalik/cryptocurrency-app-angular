@@ -4,24 +4,42 @@
   <h1 class="mb-5">CryptoSwap</h1>
   <div class="container shadow rounded-5" id="container">
     <div class="form-container sign-up-container">
-      <form action="#">
+      <form [formGroup]="signUpForm">
         <h1>Create Account</h1>
         <div class="my-2">
           <mat-form-field style="width: 18rem">
             <mat-label>Email</mat-label>
-            <input matInput />
+            <input
+              matInput
+              type="text"
+              name="email"
+              [(ngModel)]="signUpObj.email"
+              formControlName="email"
+            />
           </mat-form-field>
         </div>
         <div class="my-2">
           <mat-form-field style="width: 18rem">
             <mat-label>Username</mat-label>
-            <input matInput />
+            <input
+              matInput
+              type="text"
+              name="username"
+              [(ngModel)]="signUpObj.username"
+              formControlName="username"
+            />
           </mat-form-field>
         </div>
         <div class="my-2">
           <mat-form-field style="width: 18rem">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" />
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              name="password"
+              [(ngModel)]="signUpObj.password"
+              formControlName="password"
+            />
             <button
               mat-icon-button
               matSuffix
@@ -33,7 +51,14 @@
             </button>
           </mat-form-field>
         </div>
-        <button mat-raised-button color="accent" class="mb-4">Sign Up</button>
+        <button
+          mat-raised-button
+          color="accent"
+          class="mb-4"
+          (click)="onSignUp()"
+        >
+          Sign Up
+        </button>
         <span>or register with:</span>
         <div class="social-container">
           <button mat-mini-fab color="primary" class="me-3 my-2">
@@ -46,18 +71,30 @@
       </form>
     </div>
     <div class="form-container sign-in-container">
-      <form action="#">
+      <form [formGroup]="logInForm">
         <h1 class="mb-3">Sign in</h1>
         <div class="mb-2">
           <mat-form-field style="width: 18rem">
             <mat-label>Username</mat-label>
-            <input matInput />
+            <input
+              matInput
+              type="text"
+              name="username"
+              [(ngModel)]="signUpObj.username"
+              formControlName="username"
+            />
           </mat-form-field>
         </div>
         <div class="mb-2">
           <mat-form-field style="width: 18rem">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" />
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              name="password"
+              [(ngModel)]="signUpObj.password"
+              formControlName="password"
+            />
             <button
               mat-icon-button
               matSuffix
@@ -70,7 +107,14 @@
           </mat-form-field>
         </div>
         <a href="#" class="mb-3">Forgot your password?</a>
-        <button mat-raised-button color="primary" class="mb-5">Sign In</button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="mb-5"
+          (click)="onLogIn()"
+        >
+          Sign In
+        </button>
         <span>or sign in with:</span>
         <div class="social-container">
           <button mat-mini-fab color="primary" class="me-3 my-2">
