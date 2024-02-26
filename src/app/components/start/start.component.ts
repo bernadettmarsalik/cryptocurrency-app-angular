@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { Renderer2, ElementRef } from '@angular/core';
-import { handleButtonClick } from './start.component.slider';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { handleButtonClick } from './start-slider';
 
 @Component({
   selector: 'app-start',
@@ -8,6 +7,7 @@ import { handleButtonClick } from './start.component.slider';
   styleUrls: ['./start.component.scss'],
 })
 export class StartComponent {
+  hide = true;
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngAfterViewInit() {

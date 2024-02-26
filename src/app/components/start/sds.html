@@ -2,24 +2,25 @@
   class="d-flex flex-column justify-content-center align-items-center h-75"
 >
   <h1 class="mb-5">CryptoSwap</h1>
-  <div class="container shadow rounded-5" id="container">
-    <div class="form-container sign-up-container">
-      <form action="#">
+  <div class="container shadow rounded-5">
+    <div class="form-container sign-in-container">
+      <form>
         <h1>Create Account</h1>
-        <div class="my-2">
-          <mat-form-field style="width: 18rem">
-            <mat-label>Email</mat-label>
-            <input matInput />
-          </mat-form-field>
-        </div>
-        <div class="my-2">
-          <mat-form-field style="width: 18rem">
+        <div class="mx-2 my-2">
+          
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput />
+            </mat-form-field>
+          </div>
+          <div class="mx-2 my-2"></div>
+          <mat-form-field>
             <mat-label>Username</mat-label>
             <input matInput />
           </mat-form-field>
         </div>
-        <div class="my-2">
-          <mat-form-field style="width: 18rem">
+        <div class="mx-2 my-2">
+          <mat-form-field>
             <mat-label>Password</mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" />
             <button
@@ -33,30 +34,33 @@
             </button>
           </mat-form-field>
         </div>
-        <button mat-raised-button color="accent" class="mb-4">Sign Up</button>
-        <span>or register with:</span>
-        <div class="social-container">
-          <button mat-mini-fab color="primary" class="me-3 my-2">
-            <i class="fab fa-facebook-f"></i>
-          </button>
-          <button mat-mini-fab color="primary">
-            <i class="fab fa-google-plus-g"></i>
-          </button>
+        <div class="mx-2 my-2">
+          <button>Sign Up</button>
+
+          <span class="mt-5">or sign in with: </span>
+          <div class="container">
+            <a mat-mini-fab matTooltip="Link" class="mx-2 my-3" routerLink=".">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a mat-mini-fab matTooltip="Link" class="mx-2 my-3" routerLink=".">
+              <i class="fab fa-google-plus-g"></i>
+            </a>
+          </div>
         </div>
       </form>
     </div>
     <div class="form-container sign-in-container">
-      <form action="#">
-        <h1 class="mb-3">Sign in</h1>
-        <div class="mb-2">
-          <mat-form-field style="width: 18rem">
+      <form>
+        <h1>Sign in</h1>
+        <div class="mx-2 my-2">
+          <mat-form-field>
             <mat-label>Username</mat-label>
             <input matInput />
           </mat-form-field>
         </div>
-        <div class="mb-2">
-          <mat-form-field style="width: 18rem">
-            <mat-label>Password</mat-label>
+        <div class="mx-2 my-2">
+          <mat-form-field>
+            <mat-label>Enter your password</mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" />
             <button
               mat-icon-button
@@ -69,16 +73,20 @@
             </button>
           </mat-form-field>
         </div>
-        <a href="#" class="mb-3">Forgot your password?</a>
-        <button mat-raised-button color="primary" class="mb-5">Sign In</button>
-        <span>or sign in with:</span>
-        <div class="social-container">
-          <button mat-mini-fab color="primary" class="me-3 my-2">
-            <i class="fab fa-facebook-f"></i>
-          </button>
-          <button mat-mini-fab color="primary">
-            <i class="fab fa-google-plus-g"></i>
-          </button>
+        <div class="mx-2 my-2">
+          <a href="#">Forgot your password?</a>
+
+          <button>Sign In</button>
+
+          <span class="mt-5">or sign in with: </span>
+          <div class="container">
+            <a mat-mini-fab matTooltip="Link" class="mx-2 my-3" routerLink=".">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a mat-mini-fab matTooltip="Link" class="mx-2 my-3" routerLink=".">
+              <i class="fab fa-google-plus-g"></i>
+            </a>
+          </div>
         </div>
       </form>
     </div>
@@ -87,16 +95,12 @@
         <div class="overlay-panel overlay-left">
           <h1>Welcome Back!</h1>
           <p>To keep connected with us please login with your personal info</p>
-          <button mat-raised-button color="primary" class="ghost" id="signIn">
-            Sign In
-          </button>
+          <button class="ghost" id="signIn">Sign In</button>
         </div>
         <div class="overlay-panel overlay-right">
           <h1>Hello, Friend!</h1>
           <p>Enter your personal details and start journey with us</p>
-          <button mat-raised-button color="accent" class="ghost" id="signUp">
-            Sign Up
-          </button>
+          <button class="ghost" id="signUp">Sign Up</button>
         </div>
       </div>
     </div>
