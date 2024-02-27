@@ -18,12 +18,13 @@ export class StartComponent {
   logInForm: FormGroup;
   signUpObj: SignUp = { email: '', username: '', password: '', wallet: [] };
   logInObj: LogIn = { username: '', password: '' };
+  loggedUser?: any;
 
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     private router: Router,
-    private authService: AuthService
+    public authService: AuthService
   ) {
     this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.authService.isLoggedIn = isLoggedIn;
@@ -115,6 +116,11 @@ export class StartComponent {
     } else {
       alert('Invalid form, please check your inputs.');
     }
+  }
+
+  onLogOut() {
+    this.authService.isLoggedIn = false;
+    this.router.navigate(['start']);
   }
 
   private getStoredUsers(): SignUp[] {

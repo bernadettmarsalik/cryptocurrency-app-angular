@@ -70,7 +70,10 @@
         </div>
       </form>
     </div>
-    <div class="form-container sign-in-container">
+    <div
+      *ngIf="!authService.isLoggedIn"
+      class="form-container sign-in-container"
+    >
       <form [formGroup]="logInForm">
         <h1 class="mb-3">Sign in</h1>
         <div>
@@ -125,6 +128,23 @@
           </button>
         </div>
       </form>
+    </div>
+    <div
+      *ngIf="authService.isLoggedIn"
+      class="form-container sign-in-container d-flex flex-column justify-content-center p-5 text-center"
+    >
+      <p>signed in.</p>
+      <div>
+        <button
+          mat-raised-button
+          color="accent"
+          routerLink="dashboard"
+          class="me-3"
+        >
+          Dashboard
+        </button>
+        <button mat-raised-button (click)="onLogOut()">Log Out</button>
+      </div>
     </div>
     <div class="overlay-container">
       <div class="overlay">
