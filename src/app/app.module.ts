@@ -20,6 +20,7 @@ import { SidebarComponent } from './components/dashboard/sidebar/sidebar.compone
 import { TabsComponent } from './components/dashboard/tabs/tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CryptoComponent } from './components/dashboard/crypto/crypto.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { CryptoComponent } from './components/dashboard/crypto/crypto.component'
     MatSidenavModule,
     MatCheckboxModule,
     MatTabsModule,
+    HttpClientModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

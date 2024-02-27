@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SignUp } from '../../models/SignUp.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  loggedUser?: any;
+  loggedUser?: SignUp;
   constructor(private router: Router) {
     const localUser = localStorage.getItem('loggedUser');
     if (localUser != null) {
