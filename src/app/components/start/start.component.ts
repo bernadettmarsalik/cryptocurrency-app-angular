@@ -1,11 +1,6 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { handleButtonClick } from './start-slider';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as bcrypt from 'bcryptjs';
 
@@ -99,7 +94,7 @@ export class StartComponent {
 
         if (isPasswordMatch) {
           alert('User found');
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['/dashboard']);
         } else {
           alert('Invalid password');
         }

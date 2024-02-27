@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [AppComponent, StartComponent, DashboardComponent],
@@ -27,7 +28,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatIconModule,
     BrowserAnimationsModule,
   ],
-  providers: [provideAnimationsAsync()],
+  providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
