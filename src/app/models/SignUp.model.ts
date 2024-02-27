@@ -1,6 +1,6 @@
-export interface User {
+export interface SignUp {
   email: string;
   username: string;
   password: string;
-  crypto?: any[];
+  wallet: string[];
 }

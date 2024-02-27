@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from '../../services/auth.service';
+import { LogIn } from '../../models/LogIn.model';
+import { SignUp } from '../../models/SignUp.model';
 
 @Component({
   selector: 'app-start',
@@ -14,8 +16,9 @@ export class StartComponent {
   hide = true;
   signUpForm: FormGroup;
   logInForm: FormGroup;
-  signUpObj: SignUp = new SignUp();
-  logInObj: LogIn = new LogIn();
+  signUpObj: SignUp = { email: '', username: '', password: '', wallet: [] };
+  logInObj: LogIn = { username: '', password: '' };
+
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
@@ -71,7 +74,7 @@ export class StartComponent {
         email: this.signUpForm.value.email,
         username: this.signUpForm.value.username,
         password: hashedPassword,
-        crypto: [],
+        wallet: [],
       };
 
       users.push(newUser);
@@ -100,7 +103,6 @@ export class StartComponent {
 
         if (isPasswordMatch) {
           console.log('User found');
-          console.log(foundUser);
           this.authService.logIn().subscribe(() => {
             this.router.navigate(['/dashboard']);
           });
@@ -118,27 +120,5 @@ export class StartComponent {
   private getStoredUsers(): SignUp[] {
     const localUsers = localStorage.getItem('appUsers');
     return localUsers ? JSON.parse(localUsers) : [];
-  }
-}
-
-export class SignUp {
-  email: string;
-  username: string;
-  password: string;
-
-  constructor() {
-    this.email = '';
-    this.username = '';
-    this.password = '';
-  }
-}
-
-export class LogIn {
-  username: string;
-  password: string;
-
-  constructor() {
-    this.username = '';
-    this.password = '';
   }
 }

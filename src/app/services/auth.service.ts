@@ -7,22 +7,38 @@ import { Observable, Subject, delay, of, tap } from 'rxjs';
 export class AuthService {
   private isLoggedInSubject: Subject<boolean> = new Subject<boolean>();
   isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
-
   isLoggedIn: boolean = false;
   redirectUrl: string | null = null;
+  private readonly LS_KEY = 'authState';
+
+  constructor() {
+    const savedState = localStorage.getItem(this.LS_KEY);
+    if (savedState) {
+      const { isLoggedIn, redirectUrl } = JSON.parse(savedState);
+      this.isLoggedIn = isLoggedIn;
+      this.redirectUrl = redirectUrl;
+    }
+  }
 
   logIn(): Observable<boolean> {
     return of(true).pipe(
-      delay(1000),
       tap(() => {
         this.isLoggedIn = true;
-        this.isLoggedInSubject.next(true);
+        this.saveStateToLocalStorage();
       })
     );
   }
 
   logOut(): void {
     this.isLoggedIn = false;
-    this.isLoggedInSubject.next(false);
+    this.saveStateToLocalStorage();
+  }
+
+  private saveStateToLocalStorage(): void {
+    const authState = JSON.stringify({
+      isLoggedIn: this.isLoggedIn,
+      redirectUrl: this.redirectUrl,
+    });
+    localStorage.setItem(this.LS_KEY, authState);
   }
 }
