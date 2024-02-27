@@ -94,7 +94,8 @@ export class StartComponent {
         );
 
         if (isPasswordMatch) {
-          alert('User found');
+          console.log('User found');
+          console.log(foundUser);
           this.router.navigate(['/dashboard']);
         } else {
           alert('Invalid password');
