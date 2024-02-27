@@ -17,10 +17,17 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SidebarComponent } from './components/dashboard/sidebar/sidebar.component';
-import { TabsComponent } from './component/dashboard/tabs/tabs.component';
+import { TabsComponent } from './components/dashboard/tabs/tabs.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [AppComponent, StartComponent, DashboardComponent, SidebarComponent, TabsComponent],
+  declarations: [
+    AppComponent,
+    StartComponent,
+    DashboardComponent,
+    SidebarComponent,
+    TabsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,6 +42,7 @@ import { TabsComponent } from './component/dashboard/tabs/tabs.component';
     MatToolbarModule,
     MatSidenavModule,
     MatCheckboxModule,
+    MatTabsModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],
