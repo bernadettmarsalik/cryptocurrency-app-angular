@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CryptoModel } from '../models/Crypto.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,1 +1,20 @@
-<p>crypto works!</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Cryptocurrency</th>
+      <th>Last Week's Exchange Rate</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Iterate through your cryptocurrency data and display it in rows -->
+    <tr *ngFor="let crypto of cryptos">
+      <td>{{ crypto.symbol_id }}</td>
+      <td>
+        <!-- Add action buttons or links based on your requirements -->
+
+        <button class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

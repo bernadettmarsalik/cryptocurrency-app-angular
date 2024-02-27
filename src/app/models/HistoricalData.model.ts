@@ -1,4 +1,4 @@
-export interface CryptoModel {
+export interface HistoricalDataModel {
   symbol_id: string;
   time_period_start: string;
   time_period_end: string;
@@ -10,12 +10,4 @@ export interface CryptoModel {
   price_close: number;
   volume_traded: number;
   trades_count: number;
-}
-
-export interface SymbolMetadata {
-  symbol_id: string;
-  symbol_type: string;
-  exchange_id: string;
-  asset_id_base: string;
-  asset_id_quote: string;
 }
