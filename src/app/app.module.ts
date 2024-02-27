@@ -13,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthService } from './services/auth.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [AppComponent, StartComponent, DashboardComponent],
@@ -27,6 +30,9 @@ import { AuthService } from './services/auth.service';
     MatInputModule,
     MatIconModule,
     BrowserAnimationsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatCheckboxModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],
