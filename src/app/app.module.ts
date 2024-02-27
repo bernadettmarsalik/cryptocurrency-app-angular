@@ -16,9 +16,11 @@ import { AuthService } from './services/auth.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { SidebarComponent } from './components/dashboard/sidebar/sidebar.component';
+import { TabsComponent } from './component/dashboard/tabs/tabs.component';
 
 @NgModule({
-  declarations: [AppComponent, StartComponent, DashboardComponent],
+  declarations: [AppComponent, StartComponent, DashboardComponent, SidebarComponent, TabsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

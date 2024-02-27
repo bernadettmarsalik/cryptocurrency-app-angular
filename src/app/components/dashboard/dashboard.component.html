@@ -1,4 +1,17 @@
-<div class="my-5">
-  <h1 class="text-danger">Welcome again {{ loggedUser.username }}!</h1>
-  <button mat-raised-button (click)="onLogOut()">Log Out</button>
+<div class="wrapper">
+  <mat-toolbar color="primary">
+    <span>CryptoSwap</span>
+  </mat-toolbar>
+  <div class="content">
+    <div class="sidebar">
+      <h1 class="mb-3">Welcome again {{ loggedUser.username }}!</h1>
+      <button mat-raised-button (click)="onLogOut()" class="mb-3">
+        Log Out
+      </button>
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="main">
+      <app-tabs></app-tabs>
+    </div>
+  </div>
 </div>
