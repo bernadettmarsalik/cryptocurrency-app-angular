@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-start',
@@ -44,7 +45,35 @@ export class StartComponent {
   onSignUp() {
     if (this.signUpForm.valid) {
       const users = this.getStoredUsers();
-      users.push(this.signUpForm.value);
+
+      const usernameExists = users.some(
+        (user: SignUp) => user.username === this.signUpForm.value.username
+      );
+      const emailExists = users.some(
+        (user: SignUp) => user.email === this.signUpForm.value.email
+      );
+
+      if (usernameExists || emailExists) {
+        alert(
+          'Username or email already exists. Please choose a different one.'
+        );
+        return;
+      }
+
+      // jelszó hashelése bcrypttel
+      const length = 10;
+      const hashedPassword = bcrypt.hashSync(
+        this.signUpForm.value.password,
+        length
+      );
+
+      const newUser = {
+        email: this.signUpForm.value.email,
+        username: this.signUpForm.value.username,
+        password: hashedPassword,
+      };
+
+      users.push(newUser);
       localStorage.setItem('appUsers', JSON.stringify(users));
       alert('Sign Up was successful');
     } else {
@@ -56,17 +85,26 @@ export class StartComponent {
   onLogIn() {
     if (this.logInForm.valid) {
       const users = this.getStoredUsers();
-      const isUser = users.find(
-        (user: SignUp) =>
-          user.username === this.logInForm.value.username &&
-          user.password === this.logInForm.value.password
+      const inputPassword = this.logInForm.value.password;
+
+      const foundUser = users.find(
+        (user: SignUp) => user.username === this.logInForm.value.username
       );
-      if (isUser) {
-        alert('User found');
-        localStorage.setItem('loggedUser', JSON.stringify(isUser));
-        this.router.navigate(['dashboard']);
+
+      if (foundUser) {
+        const isPasswordMatch = bcrypt.compareSync(
+          inputPassword,
+          foundUser.password
+        );
+
+        if (isPasswordMatch) {
+          alert('User found');
+          this.router.navigate(['dashboard']);
+        } else {
+          alert('Invalid password');
+        }
       } else {
-        alert('No User found');
+        alert('No user found');
       }
     } else {
       alert('Invalid form, please check your inputs.');
