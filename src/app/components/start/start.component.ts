@@ -66,6 +66,7 @@ export class StartComponent {
         email: this.signUpForm.value.email,
         username: this.signUpForm.value.username,
         password: hashedPassword,
+        crypto: [],
       };
 
       users.push(newUser);

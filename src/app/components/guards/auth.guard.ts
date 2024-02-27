@@ -17,6 +17,6 @@ export const authGuard: CanActivateFn = (
   if (localStorage.getItem('currentUser')) {
     return true;
   }
-  this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+  router.navigate(['/start']);
   return false;
 };
