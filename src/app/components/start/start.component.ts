@@ -3,6 +3,7 @@ import { handleButtonClick } from './start-slider';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as bcrypt from 'bcryptjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-start',
@@ -18,8 +19,12 @@ export class StartComponent {
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
+    this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
+      this.authService.isLoggedIn = isLoggedIn;
+    });
     this.signUpForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       username: new FormControl('', [Validators.required]),
@@ -96,7 +101,9 @@ export class StartComponent {
         if (isPasswordMatch) {
           console.log('User found');
           console.log(foundUser);
-          this.router.navigate(['/dashboard']);
+          this.authService.logIn().subscribe(() => {
+            this.router.navigate(['/dashboard']);
+          });
         } else {
           alert('Invalid password');
         }
