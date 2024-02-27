@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SidebarComponent } from './components/dashboard/sidebar/sidebar.component';
 import { TabsComponent } from './components/dashboard/tabs/tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { CryptoComponent } from './components/dashboard/crypto/crypto.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     DashboardComponent,
     SidebarComponent,
     TabsComponent,
+    CryptoComponent,
   ],
   imports: [
     BrowserModule,
