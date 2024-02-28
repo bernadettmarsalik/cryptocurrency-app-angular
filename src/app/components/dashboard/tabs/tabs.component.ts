@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CryptoService } from '../../../services/crypto.service';
 import { SignUp } from '../../../models/SignUp.model';
-import { Subscription, map } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddCryptoComponent } from '../add-crypto/add-crypto.component';
 
 @Component({
   selector: 'app-tabs',
@@ -25,7 +27,8 @@ export class TabsComponent implements OnInit, OnDestroy {
 
   constructor(
     private cryptoService: CryptoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +89,9 @@ export class TabsComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  links = ['+'];
+  activeLink = this.links[0];
 
   ngOnDestroy(): void {
     this.subCrypto?.unsubscribe();

@@ -51,7 +51,7 @@ export class AddCryptoComponent implements OnInit {
           user.wallet.push(symbolWalletData);
           this.authService.updateUser(user);
           this.addCryptoForm.reset();
-          alert('Crypto added');
+          console.log('Crypto added');
         }
       } else {
         alert('User not found. Please log in again.');

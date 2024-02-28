@@ -51,6 +51,7 @@ import { MatListModule } from '@angular/material/list';
     MatTabsModule,
     HttpClientModule,
     MatListModule,
+    NgbModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

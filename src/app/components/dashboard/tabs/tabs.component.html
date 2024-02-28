@@ -1,54 +1,52 @@
-<mat-tab-group>
-  <mat-tab label="{{ selectedSymbolId }}" *ngFor="let wallet of wallet">
-    <table class="table table-striped">
-      <thead>
-        <h3>Last Week's Data</h3>
-        <tr>
-          <th>Exchange</th>
-          <th>Price Close</th>
-          <th>Period start</th>
-          <th>Period end</th>
-          <th>Price high</th>
-          <th>Price low</th>
-          <th>Price close</th>
-          <th>Volume traded</th>
-          <th>Trades count</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let crypto of displayedCryptos">
-          <td>{{ selectedSymbolId }}</td>
-          <td>{{ crypto.price_close }}</td>
-          <td>{{ crypto.time_period_start }}</td>
-          <td>{{ crypto.time_period_end }}</td>
-          <td>{{ crypto.price_high }}</td>
-          <td>{{ crypto.price_low }}</td>
-          <td>{{ crypto.price_close }}</td>
-          <td>{{ crypto.volume_traded }}</td>
-          <td>{{ crypto.trades_count }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </mat-tab>
-</mat-tab-group>
-
-<h1>SYMBOLS</h1>
-<div class="container">
-  <button class="btn btn-primary" (click)="getUserSymbols()">
-    Get Symbols
-  </button>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Symbol ID Exchange</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let symbol of symbols">
-        <td>{{ symbol.symbol_id_exchange }}</td>
-        <td>{{ symbol.price }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<section class="d-flex">
+  <div>
+    <mat-tab-group>
+      <mat-tab *ngFor="let symbol of wallet" label="{{ symbol }}">
+        <table class="table table-striped">
+          <thead>
+            <h3>Last Week's Data</h3>
+            <tr>
+              <th>Exchange</th>
+              <th>Price Close</th>
+              <th>Period start</th>
+              <th>Period end</th>
+              <th>Price high</th>
+              <th>Price low</th>
+              <th>Price close</th>
+              <th>Volume traded</th>
+              <th>Trades count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let crypto of displayedCryptos">
+              <td>{{ selectedSymbolId }}</td>
+              <td>{{ crypto.price_close }}</td>
+              <td>{{ crypto.time_period_start }}</td>
+              <td>{{ crypto.time_period_end }}</td>
+              <td>{{ crypto.price_high }}</td>
+              <td>{{ crypto.price_low }}</td>
+              <td>{{ crypto.price_close }}</td>
+              <td>{{ crypto.volume_traded }}</td>
+              <td>{{ crypto.trades_count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-tab>
+      <mat-tab label="+">
+        <div class="my-4">
+          <app-add-crypto></app-add-crypto>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div>
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      @for (link of links; track link) {
+      <a mat-tab-link (click)="activeLink = link" [active]="activeLink == link">
+        {{ link }}
+      </a>
+      }
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  </div>
+</section>
