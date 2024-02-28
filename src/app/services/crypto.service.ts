@@ -1,7 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map } from 'rxjs';
-import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
+import {
+  EXCHANGE_ID_COINBASE,
+  SYMBOL_TYPE_SPOT,
+  SymbolMetadataModel,
+  USD_ASSET_ID,
+} from '../models/SymbolMetadata.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +14,34 @@ import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
 export class CryptoService {
   private readonly API_KEY: string = '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9';
   private readonly API_URL = 'https://api.coinapi.io/v1';
+
+  symbolMetadata: SymbolMetadataModel = {
+    symbol_id: 'COINBASE_SPOT_BTC_USD',
+    exchange_id: EXCHANGE_ID_COINBASE,
+    symbol_type: SYMBOL_TYPE_SPOT,
+    asset_id_base: 'BTC',
+    asset_id_quote: USD_ASSET_ID,
+    data_start: '',
+    data_end: '',
+    data_quote_start: '',
+    data_quote_end: '',
+    data_orderbook_start: '',
+    data_orderbook_end: '',
+    data_trade_start: '',
+    data_trade_end: '',
+    volume_1hrs: 0,
+    volume_1hrs_usd: 0,
+    volume_1day: 0,
+    volume_1day_usd: 0,
+    volume_1mth: 0,
+    volume_1mth_usd: 0,
+    price: 0,
+    symbol_id_exchange: '',
+    asset_id_base_exchange: '',
+    asset_id_quote_exchange: '',
+    price_precision: 0,
+    size_precision: 0,
+  };
 
   constructor(private http: HttpClient) {}
 

@@ -65,10 +65,11 @@ export class TabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAllSymbols() {
-    this.cryptoService.getAllSymbols().subscribe({
+  getUserSymbols() {
+    this.cryptoService.getUserSymbols().subscribe({
       next: (symbols: SymbolMetadataModel[]) => {
         this.symbols = symbols;
+        console.log('symbols:' + symbols);
       },
       error: (err) => {
         console.log(err);
