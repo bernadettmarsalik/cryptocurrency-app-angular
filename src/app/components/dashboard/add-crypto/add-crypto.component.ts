@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { SignUp } from '../../../models/SignUp.model';
-import { sample } from 'rxjs';
 
 @Component({
   selector: 'app-add-crypto',
@@ -27,7 +26,6 @@ export class AddCryptoComponent implements OnInit {
     if (this.addCryptoForm.valid) {
       const users = this.getStoredUsers();
       const user = this.authService.getLoggedUser();
-      console.log(user);
 
       if (user) {
         if (user.wallet.includes(this.addCryptoForm.get('symbolId')?.value)) {

@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let crypto of cryptos$ | async">
+    <tr *ngFor="let crypto of displayedCryptos">
       <td>{{ symbol_id }}</td>
       <td>{{ crypto.price_close }}</td>
       <td>{{ crypto.time_period_start }}</td>
