@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CryptoService } from '../../../services/crypto.service';
 import { SignUp } from '../../../models/SignUp.model';
-import { Subscription } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
@@ -21,6 +21,8 @@ export class TabsComponent implements OnInit, OnDestroy {
   displayedCryptos: HistoricalDataModel[] = [];
   user?: SignUp;
   walletLength: number = 0;
+  wallet: string[] = [];
+
   constructor(
     private cryptoService: CryptoService,
     private authService: AuthService
@@ -31,23 +33,25 @@ export class TabsComponent implements OnInit, OnDestroy {
     // this.cryptos$ = this.cryptoService.getHistoricalData(this.symbol_id);
 
     this.user = this.authService.getLoggedUser();
+
     if (this.user && this.user.wallet.length > 0) {
       this.walletLength = this.user.wallet.length;
+      this.wallet = this.user.wallet;
 
-      // Iterate through the user's wallet
-      for (let i = 0; i < this.walletLength; i++) {
-        this.selectedSymbolId = this.user.wallet[i];
-        this.getHistoricalData();
-        // Add any logic you need here for each iteration
-      }
+      // Use forEach to iterate through the wallet and get data for each crypto
+      this.wallet.forEach((crypto) => {
+        // Assign the current crypto to selectedSymbolId
+        this.selectedSymbolId = crypto;
+
+        // Call the method to get historical data for the current crypto
+        this.getHistoricalData(this.selectedSymbolId);
+      });
     } else {
       console.log('No crypto added to wallet. Add one.');
     }
   }
-
-  getHistoricalData() {
-    // Kiválasztott symbol_id használata a történelmi adatok lekéréséhez
-    this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
+  getHistoricalData(symbol_id: string) {
+    this.cryptoService.getHistoricalData(symbol_id).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
         this.displayedCryptos = cryptos;
       },
@@ -59,21 +63,6 @@ export class TabsComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  // getHistoricalData(symbol_id: string) {
-  //   this.subCrypto = this.cryptoService.getHistoricalData(symbol_id).subscribe({
-  //     next: (cryptos: HistoricalDataModel[]) => {
-  //       this.cryptos = cryptos;
-  //       console.log(cryptos);
-  //     },
-  //     error: (err) => {
-  //       console.log(err);
-  //     },
-  //     complete: () => {
-  //       console.log('Crypto request is done!');
-  //     },
-  //   });
-  // }
 
   getAllSymbols() {
     this.cryptoService.getAllSymbols().subscribe({

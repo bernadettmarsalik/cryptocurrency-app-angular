@@ -21,7 +21,7 @@ export class CryptoService {
 
     const url = `${this.API_URL}/ohlcv/${symbol_id}/history?period_id=7DAY&time_start=${oneWeekAgoTime}&time_end=${currentTime}`;
     // const url = `${this.API_URL}/ohlcv/${symbol_id}/history?period_id=7DAY&time_start=2024-01-01T00:00:00`;
-
+    console.log('Request URL:', url);
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
     });
