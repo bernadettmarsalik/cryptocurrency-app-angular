@@ -1,30 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CryptoService } from '../../../services/crypto.service';
 import { Router } from '@angular/router';
 import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { Subscription } from 'rxjs';
-import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 
 @Component({
   selector: 'app-crypto',
   templateUrl: './crypto.component.html',
-  styleUrl: './crypto.component.scss',
+  styleUrls: ['./crypto.component.scss'],
 })
-export class CryptoComponent implements OnInit {
-  cryptos: SymbolMetadataModel[] = [];
+export class CryptoComponent implements OnInit, OnDestroy {
+  cryptos: HistoricalDataModel[] = [];
   subCrypto?: Subscription;
   subDeleteCrypto?: Subscription;
   id?: number;
+  symbol_id: string = 'BINANCE_SPOT_ETH_BTC';
 
   constructor(private cryptoService: CryptoService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.getCryptos();
-  }
+  ngOnInit(): void {}
 
-  getCryptos() {
-    this.subCrypto = this.cryptoService.getListOfCryptos().subscribe({
-      next: (cryptos: SymbolMetadataModel[]) => {
+  getHistoricalData(symbol_id: string) {
+    this.subCrypto = this.cryptoService.getHistoricalData(symbol_id).subscribe({
+      next: (cryptos: HistoricalDataModel[]) => {
         this.cryptos = cryptos;
         console.log(cryptos);
       },
@@ -37,27 +35,9 @@ export class CryptoComponent implements OnInit {
     });
   }
 
-  // createCrypto() {
-  //   this.router.navigate(['car-form']);
-  // }
-
-  // deleteCrypto(id?: number) {
-  //   if (confirm('Are you sure?')) {
-  //     if (!id) {
-  //       id = Number(prompt('Kérlek adj meg egy id-t a törléshez!'));
-  //     }
-  //     this.subDeleteCar = this.carService.deleteCar(Number(id)).subscribe({
-  //       complete: () => {
-  //         console.log('Delete complete!');
-  //         this.getCars();
-  //       },
-  //     });
-  //   }
-  // }
-
-  // goToCarDetails(id?: number): void {
-  //   this.router.navigate(['car-form', id]);
-  // }
+  showCryptoDetails(crypto: HistoricalDataModel) {
+    console.log('Show details for:', crypto);
+  }
 
   ngOnDestroy(): void {
     this.subCrypto?.unsubscribe();
