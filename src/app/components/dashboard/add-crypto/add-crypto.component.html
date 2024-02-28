@@ -1,0 +1,22 @@
+<form [formGroup]="addCryptoForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="symbolId">Cryptocurrency Symbol:</label>
+    <select formControlName="symbolId" id="symbolId" class="form-control w-25">
+      <option value="" disabled>Select Cryptocurrency</option>
+      <option *ngFor="let symbol of cryptoSymbolIds" [value]="symbol">
+        {{ symbol }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        addCryptoForm.get('symbolId')?.invalid &&
+        addCryptoForm.get('symbolId')?.touched
+      "
+      class="text-danger"
+    >
+      Please select a cryptocurrency symbol.
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add Crypto</button>
+</form>

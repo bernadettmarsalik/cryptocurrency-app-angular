@@ -21,6 +21,7 @@ import { TabsComponent } from './components/dashboard/tabs/tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CryptoComponent } from './components/dashboard/crypto/crypto.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     SidebarComponent,
     TabsComponent,
     CryptoComponent,
+    AddCryptoComponent,
   ],
   imports: [
     BrowserModule,

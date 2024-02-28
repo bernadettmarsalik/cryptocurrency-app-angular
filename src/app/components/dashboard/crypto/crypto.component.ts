@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CryptoService } from '../../../services/crypto.service';
 import { Router } from '@angular/router';
 import { HistoricalDataModel } from '../../../models/HistoricalData.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 
 @Component({
   selector: 'app-crypto',
@@ -10,33 +11,48 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./crypto.component.scss'],
 })
 export class CryptoComponent implements OnInit, OnDestroy {
-  cryptos: HistoricalDataModel[] = [];
+  // cryptos: HistoricalDataModel[] = [];
+  cryptos$: Observable<HistoricalDataModel[]> = new Observable();
   subCrypto?: Subscription;
   subDeleteCrypto?: Subscription;
-  id?: number;
   symbol_id: string = 'BINANCE_SPOT_ETH_BTC';
+  symbols: any[] = [];
 
   constructor(private cryptoService: CryptoService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.getAllSymbols();
+    // this.cryptos$ = this.cryptoService.getHistoricalData(this.symbol_id);
+  }
 
-  getHistoricalData(symbol_id: string) {
-    this.subCrypto = this.cryptoService.getHistoricalData(symbol_id).subscribe({
-      next: (cryptos: HistoricalDataModel[]) => {
-        this.cryptos = cryptos;
-        console.log(cryptos);
+  // getHistoricalData(symbol_id: string) {
+  //   this.subCrypto = this.cryptoService.getHistoricalData(symbol_id).subscribe({
+  //     next: (cryptos: HistoricalDataModel[]) => {
+  //       this.cryptos = cryptos;
+  //       console.log(cryptos);
+  //     },
+  //     error: (err) => {
+  //       console.log(err);
+  //     },
+  //     complete: () => {
+  //       console.log('Crypto request is done!');
+  //     },
+  //   });
+  // }
+
+  getAllSymbols() {
+    this.cryptoService.getAllSymbols().subscribe({
+      next: (symbols: SymbolMetadataModel[]) => {
+        this.symbols = symbols;
+        console.log(symbols);
       },
       error: (err) => {
         console.log(err);
       },
       complete: () => {
-        console.log('Crypto request is done!');
+        console.log('Get all symbols request is done!');
       },
     });
-  }
-
-  showCryptoDetails(crypto: HistoricalDataModel) {
-    console.log('Show details for:', crypto);
   }
 
   ngOnDestroy(): void {
