@@ -73,10 +73,8 @@ export class AuthService {
     const localUsers = localStorage.getItem('appUsers');
     let users: SignUp[] = localUsers ? JSON.parse(localUsers) : [];
 
-    // Update the user in the array
     users = users.map((u) => (u.username === user.username ? user : u));
 
-    // Save the updated array back to local storage
     localStorage.setItem('appUsers', JSON.stringify(users));
   }
 }

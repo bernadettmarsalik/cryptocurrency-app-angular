@@ -101,4 +101,6 @@ export class CryptoService {
 
     return this.http.get<SymbolMetadataModel[]>(url, { headers });
   }
+
+  saveSymbols() {}
 }
