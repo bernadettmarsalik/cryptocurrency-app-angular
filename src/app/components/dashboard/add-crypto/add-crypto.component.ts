@@ -1,7 +1,14 @@
+import {
+  popularCoins,
+  popularCoinsFullName,
+} from './../../../../assets/popularCoins';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { SignUp } from '../../../models/SignUp.model';
+import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
+import { Observable } from 'rxjs';
+import { CryptoService } from '../../../services/crypto.service';
 
 @Component({
   selector: 'app-add-crypto',
@@ -13,10 +20,18 @@ export class AddCryptoComponent implements OnInit {
   userWallet: string[] = [];
   signUpObj: SignUp = { email: '', username: '', password: '', wallet: [] };
   loggedUser?: any;
+  symbols$: Observable<SymbolMetadataModel[]> = new Observable();
+  popularCoins: string[] = popularCoins;
+  popularCoinsFullName: string[] = popularCoinsFullName;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cryptoService: CryptoService
+  ) {}
 
   ngOnInit(): void {
+    this.symbols$ = this.cryptoService.getAllSymbols();
+
     this.addCryptoForm = new FormGroup({
       symbolId: new FormControl('', [Validators.required]),
     });

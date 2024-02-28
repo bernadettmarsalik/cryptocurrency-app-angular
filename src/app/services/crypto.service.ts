@@ -7,6 +7,7 @@ import {
   SymbolMetadataModel,
   USD_ASSET_ID,
 } from '../models/SymbolMetadata.model';
+import { popularCoins } from '../../assets/popularCoins';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,6 @@ export class CryptoService {
     const oneWeekAgoTime = oneWeekAgo.toISOString();
 
     const url = `${this.API_URL}/ohlcv/${symbol_id}/history?period_id=7DAY&time_start=${oneWeekAgoTime}&time_end=${currentTime}`;
-    // const url = `${this.API_URL}/ohlcv/${symbol_id}/history?period_id=7DAY&time_start=2024-01-01T00:00:00`;
     console.log('Request URL:', url);
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
@@ -74,13 +74,10 @@ export class CryptoService {
     return forkJoin(observables);
   }
 
-  getUserSymbols(): Observable<SymbolMetadataModel[]> {
-    // A túl sok kérés miatt és 429 status miatt limitálni kellett a lekérhető adatok számát 20-ra
-    const popularCoins =
-      'BTC_ETH_BNB_XRP_SOL_ADA_AVAX_LUNA_DOT_LTC_DOGE_UNI_USDC_MATIC_ALGO_BCH_ATOM_XTZ_ICP_FIL_AAVE';
+  getUserSymbols(userSymbols: string): Observable<SymbolMetadataModel[]> {
     const filterSymbolId = 'COINBASE_SPOT';
 
-    const url = `https://rest.coinapi.io/v1/symbols?filter_symbol_id=${filterSymbolId}&filter_exchange_id=${popularCoins}&filter_asset_id=USD`;
+    const url = `https://rest.coinapi.io/v1/symbols?filter_symbol_id=${filterSymbolId}&filter_exchange_id=${userSymbols}&filter_asset_id=USD`;
     // const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
 
     const headers = new HttpHeaders({
@@ -91,7 +88,12 @@ export class CryptoService {
   }
 
   getAllSymbols(): Observable<SymbolMetadataModel[]> {
-    const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
+    // A túl sok kérés miatt és 429 status miatt limitálni kellett a lekérhető adatok számát 20-ra
+
+    const filterSymbolId = 'COINBASE_SPOT';
+
+    const url = `https://rest.coinapi.io/v1/symbols?filter_symbol_id=${filterSymbolId}&filter_exchange_id=${popularCoins}&filter_asset_id=USD`;
+    // const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
 
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,

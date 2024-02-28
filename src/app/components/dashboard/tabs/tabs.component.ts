@@ -66,18 +66,25 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   getUserSymbols() {
-    this.cryptoService.getUserSymbols().subscribe({
-      next: (symbols: SymbolMetadataModel[]) => {
-        this.symbols = symbols;
-        console.log('symbols:' + symbols);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('Symbols request is done!');
-      },
-    });
+    this.user = this.authService.getLoggedUser();
+
+    if (this.user && this.user.wallet.length > 0) {
+      this.wallet = this.user.wallet;
+      const userSymbols = this.wallet.join('_');
+
+      this.cryptoService.getUserSymbols(userSymbols).subscribe({
+        next: (symbols: SymbolMetadataModel[]) => {
+          this.symbols = symbols;
+          console.log('symbols:', symbols);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('Symbols request is done!');
+        },
+      });
+    }
   }
 
   ngOnDestroy(): void {
