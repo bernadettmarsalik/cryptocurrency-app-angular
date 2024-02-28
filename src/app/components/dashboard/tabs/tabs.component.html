@@ -1,5 +1,5 @@
 <mat-tab-group>
-  <mat-tab label="{{ symbol_id }}" *ngFor="let wallet of wallet">
+  <mat-tab label="{{ selectedSymbolId }}" *ngFor="let wallet of wallet">
     <table class="table table-striped">
       <thead>
         <h3>Last Week's Data</h3>
@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let crypto of displayedCryptos">
-          <td>{{ symbol_id }}</td>
+          <td>{{ selectedSymbolId }}</td>
           <td>{{ crypto.price_close }}</td>
           <td>{{ crypto.time_period_start }}</td>
           <td>{{ crypto.time_period_end }}</td>

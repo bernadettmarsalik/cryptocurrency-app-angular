@@ -15,7 +15,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   // cryptos$: Observable<HistoricalDataModel[]> = new Observable();
   subCrypto?: Subscription;
   subDeleteCrypto?: Subscription;
-  symbol_id: string = 'BINANCE_SPOT_ETH_BTC';
+  symbol_id: string = '';
   symbols: any[] = [];
   selectedSymbolId: string = '';
   displayedCryptos: HistoricalDataModel[] = [];
@@ -50,6 +50,7 @@ export class TabsComponent implements OnInit, OnDestroy {
       console.log('No crypto added to wallet. Add one.');
     }
   }
+
   getHistoricalData(symbol_id: string) {
     this.cryptoService.getHistoricalData(symbol_id).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
@@ -68,13 +69,12 @@ export class TabsComponent implements OnInit, OnDestroy {
     this.cryptoService.getAllSymbols().subscribe({
       next: (symbols: SymbolMetadataModel[]) => {
         this.symbols = symbols;
-        console.log(symbols);
       },
       error: (err) => {
         console.log(err);
       },
       complete: () => {
-        console.log('Get all symbols request is done!');
+        console.log('Symbols request is done!');
       },
     });
   }

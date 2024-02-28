@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
 
 @Injectable({
@@ -29,21 +29,35 @@ export class CryptoService {
     return this.http.get<any>(url, { headers });
   }
 
-  getAllSymbols(): Observable<any[]> {
+  getSymbolsDataForWallet(wallet: string[]): Observable<any[]> {
+    const observables: Observable<any>[] = [];
+
+    wallet.forEach((symbol_id) => {
+      // For each symbol in the wallet, create an observable to get historical data
+      observables.push(this.getHistoricalData(symbol_id));
+    });
+
+    // Use forkJoin to combine observables and get results once all are completed
+    return forkJoin(observables);
+  }
+
+  getUserSymbols(): Observable<SymbolMetadataModel[]> {
+    const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
+
+    const headers = new HttpHeaders({
+      'X-CoinAPI-Key': this.API_KEY,
+    });
+
+    return this.http.get<SymbolMetadataModel[]>(url, { headers });
+  }
+
+  getAllSymbols(): Observable<SymbolMetadataModel[]> {
     const url = `${this.API_URL}/symbols`;
 
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
     });
 
-    return this.http.get<any[]>(url, { headers });
-  }
-
-  getUSDExchangeSymbols(): Observable<any[]> {
-    return this.getAllSymbols().pipe(
-      map((symbols) =>
-        symbols.filter((symbol) => symbol.asset_id_quote === 'USD')
-      )
-    );
+    return this.http.get<SymbolMetadataModel[]>(url, { headers });
   }
 }
