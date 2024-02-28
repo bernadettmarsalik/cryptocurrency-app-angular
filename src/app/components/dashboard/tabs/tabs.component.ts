@@ -19,7 +19,8 @@ export class TabsComponent implements OnInit, OnDestroy {
   symbols: any[] = [];
   selectedSymbolId: string = '';
   displayedCryptos: HistoricalDataModel[] = [];
-
+  user?: SignUp;
+  walletLength: number = 0;
   constructor(
     private cryptoService: CryptoService,
     private authService: AuthService
@@ -29,11 +30,19 @@ export class TabsComponent implements OnInit, OnDestroy {
     // this.getAllSymbols();
     // this.cryptos$ = this.cryptoService.getHistoricalData(this.symbol_id);
 
-    const user: SignUp | undefined = this.authService.getLoggedUser();
-    if (user && user.wallet.length > 0) {
-      this.selectedSymbolId = user.wallet[0];
-      this.getHistoricalData();
-    } else console.log('No crypto added to wallet. Add one.');
+    this.user = this.authService.getLoggedUser();
+    if (this.user && this.user.wallet.length > 0) {
+      this.walletLength = this.user.wallet.length;
+
+      // Iterate through the user's wallet
+      for (let i = 0; i < this.walletLength; i++) {
+        this.selectedSymbolId = this.user.wallet[i];
+        this.getHistoricalData();
+        // Add any logic you need here for each iteration
+      }
+    } else {
+      console.log('No crypto added to wallet. Add one.');
+    }
   }
 
   getHistoricalData() {

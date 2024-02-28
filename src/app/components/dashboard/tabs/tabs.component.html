@@ -1,36 +1,38 @@
-<app-crypto></app-crypto>
+<mat-tab-group>
+  <mat-tab label="{{ symbol_id }}" *ngFor="let crypto of displayedCryptos">
+    <table class="table table-striped">
+      <thead>
+        <h3>Last Week's Data</h3>
+        <tr>
+          <th>Exchange</th>
+          <th>Price Close</th>
+          <th>Period start</th>
+          <th>Period end</th>
+          <th>Price high</th>
+          <th>Price low</th>
+          <th>Price close</th>
+          <th>Volume traded</th>
+          <th>Trades count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let crypto of displayedCryptos">
+          <td>{{ symbol_id }}</td>
+          <td>{{ crypto.price_close }}</td>
+          <td>{{ crypto.time_period_start }}</td>
+          <td>{{ crypto.time_period_end }}</td>
+          <td>{{ crypto.price_high }}</td>
+          <td>{{ crypto.price_low }}</td>
+          <td>{{ crypto.price_close }}</td>
+          <td>{{ crypto.volume_traded }}</td>
+          <td>{{ crypto.trades_count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-tab>
+</mat-tab-group>
 
-<h1>TABS</h1>
-<table class="table table-striped">
-  <thead>
-    <h3>Last Week's Data</h3>
-    <tr>
-      <th>Exchange</th>
-      <th>Price Close</th>
-      <th>Period start</th>
-      <th>Period end</th>
-      <th>Price high</th>
-      <th>Price low</th>
-      <th>Price close</th>
-      <th>Volume traded</th>
-      <th>Trades count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let crypto of displayedCryptos">
-      <td>{{ symbol_id }}</td>
-      <td>{{ crypto.price_close }}</td>
-      <td>{{ crypto.time_period_start }}</td>
-      <td>{{ crypto.time_period_end }}</td>
-      <td>{{ crypto.price_high }}</td>
-      <td>{{ crypto.price_low }}</td>
-      <td>{{ crypto.price_close }}</td>
-      <td>{{ crypto.volume_traded }}</td>
-      <td>{{ crypto.trades_count }}</td>
-    </tr>
-  </tbody>
-</table>
-
+<h1>SYMBOLS</h1>
 <div class="container">
   <button class="btn btn-primary" (click)="getAllSymbols()">
     Get All Symbols
@@ -54,5 +56,3 @@
     </tbody>
   </table>
 </div>
-
-<app-add-crypto></app-add-crypto>

@@ -1,22 +1,24 @@
-<div class="list-group">
-  <a
-    routerLink="/dashboard"
-    class="list-group-item list-group-item-action active"
-    aria-current="true"
-  >
-    Home
-  </a>
-  <a
-    routerLink="/dashboard/crypto"
-    class="list-group-item list-group-item-action"
-    >Saved cryptos</a
-  >
-  <a
-    routerLink="/dashboard/add-crypto"
-    class="list-group-item list-group-item-action"
-    >Add Crypto</a
-  >
-  <li class="list-group-item list-group-item-action">
-    <button (click)="onLogOut()" class="btn btn-sm">Log Out</button>
-  </li>
+<div class="w-100">
+  <ul class="list-group list-group-flush">
+    <a
+      routerLink="/dashboard"
+      class="list-group-item list-group-item-action list-group-item-light"
+      aria-current="true"
+    >
+      Home
+    </a>
+    <a
+      routerLink="/dashboard/crypto"
+      class="list-group-item list-group-item-action list-group-item-light"
+      >Saved cryptos</a
+    >
+    <a
+      routerLink="/dashboard/add-crypto"
+      class="list-group-item list-group-item-action list-group-item-light"
+      >Add Crypto</a
+    >
+    <li class="list-group-item list-group-item-action list-group-item-light">
+      <button (click)="onLogOut()" class="btn btn-sm">Log Out</button>
+    </li>
+  </ul>
 </div>
