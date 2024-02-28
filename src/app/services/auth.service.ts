@@ -39,9 +39,9 @@ export class AuthService {
     localStorage.setItem(this.LS_KEY, authState);
   }
 
-  logOut(): void {
+  logOut(username?: string): void {
     this.isLoggedIn = false;
-    this.saveStateToLocalStorage();
+    this.saveStateToLocalStorage(username);
   }
 
   // private saveStateToLocalStorage(): void {

@@ -6,6 +6,7 @@ import { authGuard } from './guards/auth.guard';
 import { CryptoComponent } from './components/dashboard/crypto/crypto.component';
 import { TabsComponent } from './components/dashboard/tabs/tabs.component';
 import { SidebarComponent } from './components/dashboard/sidebar/sidebar.component';
+import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
 
 const routes: Routes = [
   {
@@ -18,14 +19,19 @@ const routes: Routes = [
     component: StartComponent,
   },
   {
+    path: 'logout',
+    component: StartComponent,
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [authGuard],
-    // children: [
-    //   { path: '', component: CryptoComponent },
-    //   { path: '', component: TabsComponent },
-    //   { path: '', component: SidebarComponent },
-    // ],
+    children: [
+      { path: 'crypto', component: CryptoComponent },
+      { path: 'tabs', component: TabsComponent },
+      { path: 'add-crypto', component: AddCryptoComponent },
+      { path: '', redirectTo: 'tabs', pathMatch: 'full' },
+    ],
   },
 ];
 

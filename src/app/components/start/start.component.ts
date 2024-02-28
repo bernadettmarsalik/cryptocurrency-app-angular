@@ -119,8 +119,8 @@ export class StartComponent {
   }
 
   onLogOut() {
-    this.authService.isLoggedIn = false;
-    this.router.navigate(['start']);
+    this.authService.logOut();
+    this.router.navigate(['/logout']);
   }
 
   private getStoredUsers(): SignUp[] {

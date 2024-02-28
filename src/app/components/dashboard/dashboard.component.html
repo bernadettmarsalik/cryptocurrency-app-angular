@@ -4,16 +4,10 @@
   </mat-toolbar>
   <div class="content">
     <div class="sidebar">
-      <h1 class="mb-3" *ngIf="loggedUser">
-        Welcome again {{ loggedUser.username }}!
-      </h1>
-      <button mat-raised-button (click)="onLogOut()" class="mb-3">
-        Log Out
-      </button>
       <app-sidebar></app-sidebar>
     </div>
     <div class="main">
-      <app-tabs></app-tabs>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

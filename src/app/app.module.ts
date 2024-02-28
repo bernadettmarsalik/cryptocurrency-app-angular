@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CryptoComponent } from './components/dashboard/crypto/crypto.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto
     MatCheckboxModule,
     MatTabsModule,
     HttpClientModule,
+    MatListModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

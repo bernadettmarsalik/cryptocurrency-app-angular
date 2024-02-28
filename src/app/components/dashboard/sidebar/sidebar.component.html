@@ -1,1 +1,22 @@
-<div>SIDEBAR</div>
+<div class="list-group">
+  <a
+    routerLink="/dashboard"
+    class="list-group-item list-group-item-action active"
+    aria-current="true"
+  >
+    Home
+  </a>
+  <a
+    routerLink="/dashboard/crypto"
+    class="list-group-item list-group-item-action"
+    >Saved cryptos</a
+  >
+  <a
+    routerLink="/dashboard/add-crypto"
+    class="list-group-item list-group-item-action"
+    >Add Crypto</a
+  >
+  <li class="list-group-item list-group-item-action">
+    <button (click)="onLogOut()" class="btn btn-sm">Log Out</button>
+  </li>
+</div>
