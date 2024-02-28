@@ -30,9 +30,14 @@ export class AddCryptoComponent implements OnInit {
       console.log(user);
 
       if (user) {
-        user.wallet.push(this.addCryptoForm.get('symbolId')?.value);
-        this.authService.updateUser(user);
-        alert('Crypto added');
+        if (user.wallet.includes(this.addCryptoForm.get('symbolId')?.value)) {
+          alert('Crypto already added before!');
+        } else {
+          user.wallet.push(this.addCryptoForm.get('symbolId')?.value);
+          this.authService.updateUser(user);
+          this.addCryptoForm.reset();
+          alert('Crypto added');
+        }
       } else {
         alert('User not found. Please log in again.');
       }
