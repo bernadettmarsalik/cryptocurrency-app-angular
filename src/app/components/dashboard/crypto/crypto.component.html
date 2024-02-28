@@ -14,8 +14,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let crypto of displayedCryptos">
-      <td>{{ symbol_id }}</td>
+    <tr *ngFor="let crypto of allCryptos">
+      <td>{{ crypto.symbol_id }}</td>
       <td>{{ crypto.price_close }}</td>
       <td>{{ crypto.time_period_start }}</td>
       <td>{{ crypto.time_period_end }}</td>
@@ -42,7 +42,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let symbol of symbols">
+      <tr *ngFor="let symbol of symbols; index as i">
         <td>{{ symbol.symbol_id }}</td>
         <td>{{ symbol.exchange_id }}</td>
         <td>{{ symbol.asset_id_base }}</td>

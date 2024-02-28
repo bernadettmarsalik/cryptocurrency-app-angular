@@ -47,31 +47,3 @@ export class CryptoService {
     );
   }
 }
-
-// // Kriptovaluta hozzáadása
-// addCrypto(selectedCrypto: string): Observable<any> {
-//   // Implementáld a hozzáadást, például a local storage-ba is elmentheted
-//   // Ebben a példában csak egy observable-t adok vissza, itt lehet az API hívás a hozzáadáshoz
-//   return new Observable((observer) => {
-//     // Itt végezd el a hozzáadás logikáját, pl. local storage-ba is elmentheted
-//     observer.next({ success: true });
-//     observer.complete();
-//   });
-// }
-
-// // Kriptovaluta törlése
-// deleteCrypto(cryptoId: string): Observable<any> {
-//   // Implementáld a törlést, például a local storage-ból is törölheted
-//   // Ebben a példában csak egy observable-t adok vissza, itt lehet az API hívás a törléshez
-//   return new Observable((observer) => {
-//     // Itt végezd el a törlés logikáját, pl. local storage-ból is törölheted
-//     observer.next({ success: true });
-//     observer.complete();
-//   });
-// }
-
-// // Elmúlt heti árfolyam lekérése
-// getWeeklyPrice(cryptoId: string): Observable<any> {
-//   const url = `${this.API_URL}/ohlcv/${cryptoId}/USD/history?period_id=1W`; // Az utolsó egy hét adatai
-//   return this.http.get(url, { headers: { 'X-CoinAPI-Key': this.API_KEY } });
-// }

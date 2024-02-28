@@ -1,1 +1,58 @@
-<app-crypto></app-crypto> <app-add-crypto></app-add-crypto>
+<app-crypto></app-crypto>
+
+<h1>TABS</h1>
+<table class="table table-striped">
+  <thead>
+    <h3>Last Week's Data</h3>
+    <tr>
+      <th>Exchange</th>
+      <th>Price Close</th>
+      <th>Period start</th>
+      <th>Period end</th>
+      <th>Price high</th>
+      <th>Price low</th>
+      <th>Price close</th>
+      <th>Volume traded</th>
+      <th>Trades count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let crypto of displayedCryptos">
+      <td>{{ symbol_id }}</td>
+      <td>{{ crypto.price_close }}</td>
+      <td>{{ crypto.time_period_start }}</td>
+      <td>{{ crypto.time_period_end }}</td>
+      <td>{{ crypto.price_high }}</td>
+      <td>{{ crypto.price_low }}</td>
+      <td>{{ crypto.price_close }}</td>
+      <td>{{ crypto.volume_traded }}</td>
+      <td>{{ crypto.trades_count }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="container">
+  <button class="btn btn-primary" (click)="getAllSymbols()">
+    Get All Symbols
+  </button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Symbol ID</th>
+        <th>Exchange ID</th>
+        <th>Base Asset</th>
+        <th>Quote Asset</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let symbol of symbols">
+        <td>{{ symbol.symbol_id }}</td>
+        <td>{{ symbol.exchange_id }}</td>
+        <td>{{ symbol.asset_id_base }}</td>
+        <td>{{ symbol.asset_id_quote }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-add-crypto></app-add-crypto>
