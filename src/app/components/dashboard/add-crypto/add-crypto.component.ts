@@ -1,59 +1,48 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { SignUp } from '../../../models/SignUp.model';
+import { sample } from 'rxjs';
 
 @Component({
   selector: 'app-add-crypto',
   templateUrl: './add-crypto.component.html',
-  styleUrl: './add-crypto.component.scss',
+  styleUrls: ['./add-crypto.component.scss'],
 })
-export class AddCryptoComponent {
-  addCryptoForm: FormGroup;
-  cryptoSymbolIds: string[] = [];
+export class AddCryptoComponent implements OnInit {
+  addCryptoForm!: FormGroup;
+  userWallet: string[] = [];
+  signUpObj: SignUp = { email: '', username: '', password: '', wallet: [] };
+  loggedUser?: any;
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private authService: AuthService
-  ) {
-    this.addCryptoForm = this.fb.group({
-      symbolId: ['', Validators.required],
-      // Add other form controls as needed
-    });
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.fetchCryptoSymbolIds();
-  }
-
-  fetchCryptoSymbolIds(): void {
-    // Fetch crypto symbol ids from CoinAPI
-    this.http.get<any[]>('https://rest.coinapi.io/v1/symbols').subscribe(
-      (symbols: any[]) => {
-        this.cryptoSymbolIds = symbols.map((symbol) => symbol.symbol_id);
-      },
-      (error) => {
-        console.error('Error fetching crypto symbol ids:', error);
-      }
-    );
+    this.addCryptoForm = new FormGroup({
+      symbolId: new FormControl('', [Validators.required]),
+    });
   }
 
   onSubmit(): void {
     if (this.addCryptoForm.valid) {
-      const formValues = this.addCryptoForm.value;
+      const users = this.getStoredUsers();
+      const user = this.authService.getLoggedUser();
+      console.log(user);
 
-      const symbolId = formValues.symbolId;
-
-      const savedState = localStorage.getItem('authState');
-      if (savedState) {
-        const authState = JSON.parse(savedState);
-        authState.wallet.push(symbolId);
-        localStorage.setItem('authState', JSON.stringify(authState));
+      if (user) {
+        user.wallet.push(this.addCryptoForm.get('symbolId')?.value);
+        this.authService.updateUser(user);
+        alert('Crypto added');
+      } else {
+        alert('User not found. Please log in again.');
       }
-
-      // Reset the form after submission
-      this.addCryptoForm.reset();
+    } else {
+      alert('Invalid form, please check your inputs.');
     }
+  }
+
+  private getStoredUsers(): SignUp[] {
+    const localUsers = localStorage.getItem('appUsers');
+    return localUsers ? JSON.parse(localUsers) : [];
   }
 }

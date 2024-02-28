@@ -104,7 +104,7 @@ export class StartComponent {
 
         if (isPasswordMatch) {
           console.log('User found');
-          this.authService.logIn().subscribe(() => {
+          this.authService.logIn(foundUser.username).subscribe(() => {
             this.router.navigate(['/dashboard']);
           });
         } else {

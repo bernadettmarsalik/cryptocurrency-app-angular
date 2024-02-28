@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
 
 @Injectable({
@@ -29,14 +29,22 @@ export class CryptoService {
     return this.http.get<any>(url, { headers });
   }
 
-  getAllSymbols(): Observable<any> {
+  getAllSymbols(): Observable<any[]> {
     const url = `${this.API_URL}/symbols`;
 
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
     });
 
-    return this.http.get<any>(url, { headers });
+    return this.http.get<any[]>(url, { headers });
+  }
+
+  getUSDExchangeSymbols(): Observable<any[]> {
+    return this.getAllSymbols().pipe(
+      map((symbols) =>
+        symbols.filter((symbol) => symbol.asset_id_quote === 'USD')
+      )
+    );
   }
 }
 
