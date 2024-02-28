@@ -75,7 +75,13 @@ export class CryptoService {
   }
 
   getUserSymbols(): Observable<SymbolMetadataModel[]> {
-    const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
+    // A túl sok kérés miatt és 429 status miatt limitálni kellett a lekérhető adatok számát 20-ra
+    const popularCoins =
+      'BTC_ETH_BNB_XRP_SOL_ADA_AVAX_LUNA_DOT_LTC_DOGE_UNI_USDC_MATIC_ALGO_BCH_ATOM_XTZ_ICP_FIL_AAVE';
+    const filterSymbolId = 'COINBASE_SPOT';
+
+    const url = `https://rest.coinapi.io/v1/symbols?filter_symbol_id=${filterSymbolId}&filter_exchange_id=${popularCoins}&filter_asset_id=USD`;
+    // const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
 
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
@@ -85,7 +91,7 @@ export class CryptoService {
   }
 
   getAllSymbols(): Observable<SymbolMetadataModel[]> {
-    const url = `${this.API_URL}/symbols`;
+    const url = `${this.API_URL}/symbols?filter_symbol_id=COINBASE_SPOT&filter_asset_id=USD`;
 
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
