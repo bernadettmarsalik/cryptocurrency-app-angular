@@ -6,6 +6,7 @@ import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { JsonService } from '../../../services/json.service';
 
 @Component({
   selector: 'app-tabs',
@@ -27,6 +28,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   constructor(
     private cryptoService: CryptoService,
     private authService: AuthService,
+    private jsonService: JsonService,
     private modalService: NgbModal
   ) {}
 
@@ -43,12 +45,14 @@ export class TabsComponent implements OnInit, OnDestroy {
       this.wallet.forEach((crypto) => {
         this.selectedSymbolId = crypto;
 
-        this.getHistoricalData(this.selectedSymbolId);
+        this.getHistoricalDataWithJson(this.selectedSymbolId);
       });
     } else {
       console.log('No crypto added to wallet. Add one by click on "+" tab.');
     }
   }
+
+  // ---------------------------------COINAPI------------------------------------------------------
 
   getHistoricalData(symbol_id: string) {
     this.cryptoService.getHistoricalData(symbol_id).subscribe({
@@ -63,7 +67,6 @@ export class TabsComponent implements OnInit, OnDestroy {
       },
     });
   }
-
   getUserSymbols() {
     this.user = this.authService.getLoggedUser();
 
@@ -85,17 +88,7 @@ export class TabsComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  links = ['+'];
-  activeLink = this.links[0];
-
-  ngOnDestroy(): void {
-    this.subCrypto?.unsubscribe();
-    this.subDeleteCrypto?.unsubscribe();
-  }
-
   getChartDataForCurrentCrypto() {
-    // Assuming this.selectedSymbolId is the current crypto's symbol_id
     this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
         this.chartData = this.transformDataForChart(
@@ -111,13 +104,86 @@ export class TabsComponent implements OnInit, OnDestroy {
     });
   }
 
+  links = ['+'];
+  activeLink = this.links[0];
+
+  // ---------------------------------JSON SERVER------------------------------------------------------
+
+  getHistoricalDataWithJson(symbol_id: string) {
+    this.jsonService.getHistoricalData(symbol_id).subscribe({
+      next: (cryptos: HistoricalDataModel[]) => {
+        const foundCrypto = cryptos.find(
+          (crypto) => (crypto.symbol_id = symbol_id)
+        );
+        console.log(foundCrypto?.symbol_id + ' found crypto');
+
+        if (foundCrypto) {
+          this.displayedCryptos.push(foundCrypto);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Crypto request is done!');
+      },
+    });
+  }
+
+  getUserSymbolsWithJson() {
+    this.user = this.authService.getLoggedUser();
+
+    if (this.user && this.user.wallet.length > 0) {
+      this.wallet = this.user.wallet;
+      const userSymbols = this.wallet.join('_');
+      console.log('getusersymbolswithjson' + userSymbols);
+
+      this.jsonService.getUserSymbols(userSymbols).subscribe({
+        next: (symbols: SymbolMetadataModel[]) => {
+          this.symbols = symbols;
+          console.log('symbols:', symbols);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('Symbols request is done!');
+        },
+      });
+    }
+  }
+
+  getChartDataForCurrentCryptoWithJson() {
+    // Assuming this.selectedSymbolId is the current crypto's symbol_id
+    this.jsonService.getHistoricalData(this.selectedSymbolId).subscribe({
+      next: (cryptos: HistoricalDataModel[]) => {
+        this.chartData = this.transformDataForChart(
+          cryptos as HistoricalDataModel[]
+        );
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Chart data request is done!');
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subCrypto?.unsubscribe();
+    this.subDeleteCrypto?.unsubscribe();
+  }
+
+  // ---------------------------------NGX CHARTS------------------------------------------------------
+
   transformDataForChart(cryptos: HistoricalDataModel[]): any[] {
     return [
       {
         name: 'Árfolyam',
         series: cryptos.map((crypto) => ({
           name: crypto.time_period_start,
-          value: crypto.price_close,
+          value: crypto.price_open,
         })),
       },
     ];

@@ -1,6 +1,7 @@
 {
   "historicalData": [
     {
+      "symbol_id": "COINBASE_SPOT_ETH_USD",
       "time_period_start": "2024-02-21T12:39:13.248Z",
       "time_period_end": "2024-02-21T12:39:13.248Z",
       "time_open": "2024-02-21T12:39:13.248Z",
@@ -13,6 +14,7 @@
       "trades_count": 0
     },
     {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
       "time_period_start": "2024-02-22T12:39:13.248Z",
       "time_period_end": "2024-02-22T12:39:13.248Z",
       "time_open": "2024-02-22T12:39:13.248Z",
@@ -25,6 +27,7 @@
       "trades_count": 2
     },
     {
+      "symbol_id": "COINBASE_SPOT_LTC_USD",
       "time_period_start": "2024-02-23T12:39:13.248Z",
       "time_period_end": "2024-02-23T12:39:13.248Z",
       "time_open": "2024-02-23T12:39:13.248Z",
@@ -37,6 +40,7 @@
       "trades_count": 1
     },
     {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
       "time_period_start": "2024-02-24T12:39:13.248Z",
       "time_period_end": "2024-02-24T12:39:13.248Z",
       "time_open": "2024-02-24T12:39:13.248Z",
@@ -49,6 +53,7 @@
       "trades_count": 3
     },
     {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
       "time_period_start": "2024-02-25T12:39:13.248Z",
       "time_period_end": "2024-02-25T12:39:13.248Z",
       "time_open": "2024-02-25T12:39:13.248Z",
@@ -61,6 +66,7 @@
       "trades_count": 2
     },
     {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
       "time_period_start": "2024-02-26T12:39:13.248Z",
       "time_period_end": "2024-02-26T12:39:13.248Z",
       "time_open": "2024-02-26T12:39:13.248Z",
@@ -73,6 +79,7 @@
       "trades_count": 4
     },
     {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
       "time_period_start": "2024-02-27T12:39:13.248Z",
       "time_period_end": "2024-02-27T12:39:13.248Z",
       "time_open": "2024-02-27T12:39:13.248Z",
@@ -85,6 +92,7 @@
       "trades_count": 5
     },
     {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
       "time_period_start": "2024-02-28T12:39:13.248Z",
       "time_period_end": "2024-02-28T12:39:13.248Z",
       "time_open": "2024-02-28T12:39:13.248Z",
@@ -95,6 +103,89 @@
       "price_close": 1.4,
       "volume_traded": 2.8,
       "trades_count": 4
+    }
+  ],
+  "symbols": [
+    {
+      "symbol_id": "COINBASE_SPOT_BTC_USD",
+      "exchange_id": "COINBASE",
+      "symbol_type": "SPOT",
+      "asset_id_base": "BTC",
+      "asset_id_quote": "USD",
+      "data_start": "2024-02-21T00:00:00.000Z",
+      "data_end": "2024-02-28T23:59:59.999Z",
+      "data_quote_start": "2024-02-21T00:00:00.000Z",
+      "data_quote_end": "2024-02-28T23:59:59.999Z",
+      "data_orderbook_start": "2024-02-21T00:00:00.000Z",
+      "data_orderbook_end": "2024-02-28T23:59:59.999Z",
+      "data_trade_start": "2024-02-21T00:00:00.000Z",
+      "data_trade_end": "2024-02-28T23:59:59.999Z",
+      "volume_1hrs": 0.8,
+      "volume_1hrs_usd": 0.0008,
+      "volume_1day": 0.1,
+      "volume_1day_usd": 0.03,
+      "volume_1mth": 0.5,
+      "volume_1mth_usd": 0.8,
+      "price": 2.258,
+      "symbol_id_exchange": "",
+      "asset_id_base_exchange": "",
+      "asset_id_quote_exchange": "",
+      "price_precision": 0,
+      "size_precision": 0
+    },
+    {
+      "symbol_id": "COINBASE_SPOT_ETH_USD",
+      "exchange_id": "COINBASE",
+      "symbol_type": "SPOT",
+      "asset_id_base": "ETH",
+      "asset_id_quote": "USD",
+      "data_start": "2024-02-21T00:00:00.000Z",
+      "data_end": "2024-02-28T23:59:59.999Z",
+      "data_quote_start": "2024-02-21T00:00:00.000Z",
+      "data_quote_end": "2024-02-28T23:59:59.999Z",
+      "data_orderbook_start": "2024-02-21T00:00:00.000Z",
+      "data_orderbook_end": "2024-02-28T23:59:59.999Z",
+      "data_trade_start": "2024-02-21T00:00:00.000Z",
+      "data_trade_end": "2024-02-28T23:59:59.999Z",
+      "volume_1hrs": 0.1,
+      "volume_1hrs_usd": 0.01,
+      "volume_1day": 0.1,
+      "volume_1day_usd": 0.00583,
+      "volume_1mth": 0.5,
+      "volume_1mth_usd": 0.88,
+      "price": 0.582,
+      "symbol_id_exchange": "",
+      "asset_id_base_exchange": "",
+      "asset_id_quote_exchange": "",
+      "price_precision": 0,
+      "size_precision": 0
+    },
+    {
+      "symbol_id": "COINBASE_SPOT_XRP_USD",
+      "exchange_id": "COINBASE",
+      "symbol_type": "SPOT",
+      "asset_id_base": "XRP",
+      "asset_id_quote": "USD",
+      "data_start": "2024-02-21T00:00:00.000Z",
+      "data_end": "2024-02-28T23:59:59.999Z",
+      "data_quote_start": "2024-02-21T00:00:00.000Z",
+      "data_quote_end": "2024-02-28T23:59:59.999Z",
+      "data_orderbook_start": "2024-02-21T00:00:00.000Z",
+      "data_orderbook_end": "2024-02-28T23:59:59.999Z",
+      "data_trade_start": "2024-02-21T00:00:00.000Z",
+      "data_trade_end": "2024-02-28T23:59:59.999Z",
+      "volume_1hrs": 0.2,
+      "volume_1hrs_usd": 0.8,
+      "volume_1day": 0.1,
+      "volume_1day_usd": 0.03,
+      "volume_1mth": 0.5,
+      "volume_1mth_usd": 0.8,
+      "price": 0.258,
+      "symbol_id_exchange": "",
+      "asset_id_base_exchange": "",
+      "asset_id_quote_exchange": "",
+      "price_precision": 0,
+      "size_precision": 0
     }
   ]
 }

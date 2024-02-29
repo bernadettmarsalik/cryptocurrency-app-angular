@@ -8,6 +8,7 @@ import {
   USD_ASSET_ID,
 } from '../models/SymbolMetadata.model';
 import { popularCoins } from '../../assets/popularCoins';
+import { HistoricalDataModel } from '../models/HistoricalData.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ import { popularCoins } from '../../assets/popularCoins';
 export class CryptoService {
   private readonly API_KEY: string = '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9';
   private readonly API_URL = 'https://api.coinapi.io/v1';
+  private readonly API_JSON_URL = 'http://localhost:3000/historicalData';
 
   symbolMetadata: SymbolMetadataModel = {
     symbol_id: 'COINBASE_SPOT_BTC_USD',
@@ -46,7 +48,7 @@ export class CryptoService {
 
   constructor(private http: HttpClient) {}
 
-  getHistoricalData(symbol_id: string): Observable<any> {
+  getHistoricalData(symbol_id: string): Observable<HistoricalDataModel[]> {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
@@ -55,10 +57,10 @@ export class CryptoService {
 
     const url = `${this.API_URL}/ohlcv/${symbol_id}/history?period_id=7DAY&time_start=${oneWeekAgoTime}&time_end=${currentTime}`;
     console.log('Request URL:', url);
+
     const headers = new HttpHeaders({
       'X-CoinAPI-Key': this.API_KEY,
     });
-
     return this.http.get<any>(url, { headers });
   }
 
