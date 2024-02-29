@@ -1,62 +1,133 @@
-<section class="d-flex">
-  <div>
-    <mat-tab-group>
-      <mat-tab
-        *ngFor="let crypto of displayedCryptos"
-        label="{{ crypto.symbol_id }}"
+<section
+  class="container d-flex flex-column justify-items-center justify-content-center"
+>
+  <h2 class="my-3 text-center">Historical Charts</h2>
+
+  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+    <mat-tab
+      *ngFor="let crypto of displayedCryptos"
+      label="{{ crypto.symbol_id }}"
+    >
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Exchange</th>
+            <th>Price Close</th>
+            <th>Period start</th>
+            <th>Period end</th>
+            <th>Price high</th>
+            <th>Price low</th>
+            <th>Price close</th>
+            <th>Volume traded</th>
+            <th>Trades count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ crypto.symbol_id }}</td>
+            <td>{{ crypto.price_close }}</td>
+            <td>{{ crypto.time_period_start }}</td>
+            <td>{{ crypto.time_period_end }}</td>
+            <td>{{ crypto.price_high }}</td>
+            <td>{{ crypto.price_low }}</td>
+            <td>{{ crypto.price_close }}</td>
+            <td>{{ crypto.volume_traded }}</td>
+            <td>{{ crypto.trades_count }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ngx-charts-line-chart
+        [view]="[700, 400]"
+        [scheme]="'forest'"
+        [results]="chartData"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)"
+        (activate)="onActivate($event)"
+        (deactivate)="onDeactivate($event)"
       >
-        <table class="table table-striped">
-          <thead>
-            <h3>Last Week's Data</h3>
-            <tr>
-              <th>Exchange</th>
-              <th>Price Close</th>
-              <th>Period start</th>
-              <th>Period end</th>
-              <th>Price high</th>
-              <th>Price low</th>
-              <th>Price close</th>
-              <th>Volume traded</th>
-              <th>Trades count</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ crypto.symbol_id }}</td>
-              <td>{{ crypto.price_close }}</td>
-              <td>{{ crypto.time_period_start }}</td>
-              <td>{{ crypto.time_period_end }}</td>
-              <td>{{ crypto.price_high }}</td>
-              <td>{{ crypto.price_low }}</td>
-              <td>{{ crypto.price_close }}</td>
-              <td>{{ crypto.volume_traded }}</td>
-              <td>{{ crypto.trades_count }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <ngx-charts-line-chart
-          [view]="[700, 400]"
-          [scheme]="'forest'"
-          [results]="chartData"
-          [gradient]="gradient"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [legend]="showLegend"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          (select)="onSelect($event)"
-          (activate)="onActivate($event)"
-          (deactivate)="onDeactivate($event)"
-        >
-        </ngx-charts-line-chart>
-      </mat-tab>
-      <mat-tab label="+">
-        <div class="my-4">
-          <app-add-crypto></app-add-crypto>
+      </ngx-charts-line-chart>
+      <div class="container">
+        <div class="row">
+          <div class="card rounded-5 text-center mb-3" style="max-width: 540px">
+            <div class="row g-2">
+              <div class="col-md-4">
+                <img
+                  src="../../../../assets/usd.jpg"
+                  class="img-fluid rounded-circle py-5"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-8 py-2">
+                <div class="card-body">
+                  <h2 class="card-title">Crypto Exchanger</h2>
+                  <p class="card-text">
+                    Calculate the current value of your coins!
+                  </p>
+                  <div class="row">
+                    <div class="col my-2">
+                      <label for="cryptoInput" class="form-label"
+                        >Enter amount of {{ selectedCrypto }}</label
+                      >
+                      <input
+                        class="form-control"
+                        type="number"
+                        id="cryptoInput"
+                        [(ngModel)]="cryptoAmount"
+                      />
+                    </div>
+
+                    <div class="col mt-2">
+                      <label for="usdInput" class="form-label"
+                        >Enter value in USD:</label
+                      >
+                      <input
+                        class="form-control"
+                        type="number"
+                        id="usdInput"
+                        [(ngModel)]="usdAmount"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-2 text-center">
+                  <button
+                    class="btn btn-sm btn-primary"
+                    (click)="calculateValue()"
+                  >
+                    Calculate
+                  </button>
+                </div>
+
+                <div *ngIf="calculatedValue !== undefined">
+                  <h2 class="text-primary">
+                    Current value: {{ calculatedValue.toFixed(6) }}
+                    {{ usdAmount == undefined ? "$" : selectedCrypto }}
+                  </h2>
+                </div>
+                <p class="card-text mt-2">
+                  <small class="text-body-secondary"
+                    >Exchange data last updated
+                    {{ currentDate | date : "yyyy-MM-dd HH:mm:ss" }}</small
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="+">
+      <div class="my-4">
+        <app-add-crypto></app-add-crypto>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </section>

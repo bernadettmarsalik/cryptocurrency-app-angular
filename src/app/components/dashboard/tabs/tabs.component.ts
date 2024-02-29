@@ -7,6 +7,7 @@ import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JsonService } from '../../../services/json.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-tabs',
@@ -24,6 +25,12 @@ export class TabsComponent implements OnInit, OnDestroy {
   user?: SignUp;
   walletLength: number = 0;
   wallet: string[] = [];
+  calculatedValue?: number;
+  amount?: number;
+  selectedCrypto?: string;
+  cryptoAmount?: number;
+  usdAmount?: number;
+  currentDate: Date = new Date();
 
   constructor(
     private cryptoService: CryptoService,
@@ -35,6 +42,8 @@ export class TabsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // this.getAllSymbols();
     // this.cryptos$ = this.cryptoService.getHistoricalData(this.symbol_id);
+    this.selectedSymbolId = '';
+    this.selectedCrypto = '';
 
     this.user = this.authService.getLoggedUser();
 
@@ -173,6 +182,8 @@ export class TabsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subCrypto?.unsubscribe();
     this.subDeleteCrypto?.unsubscribe();
+    this.selectedSymbolId = '';
+    this.selectedCrypto = '';
   }
 
   // ---------------------------------NGX CHARTS------------------------------------------------------
@@ -209,5 +220,45 @@ export class TabsComponent implements OnInit, OnDestroy {
 
   onDeactivate(data: any): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+
+  calculateValue(): void {
+    if (this.cryptoAmount !== undefined) {
+      // Convert crypto to USD
+      this.cryptoService
+        .getExchangeRate(this.selectedCrypto!, 'USD')
+        .subscribe({
+          next: (exchangeRate: number) => {
+            this.calculatedValue = this.cryptoAmount! * exchangeRate;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    } else if (this.usdAmount !== undefined) {
+      // Convert USD to crypto
+      this.cryptoService
+        .getExchangeRate('USD', this.selectedCrypto!)
+        .subscribe({
+          next: (exchangeRate: number) => {
+            this.calculatedValue = this.usdAmount! * exchangeRate;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
+  }
+
+  extractCryptoPart(selectedSymbolId: string): string {
+    const parts = selectedSymbolId.split('_');
+    return parts[2];
+  }
+
+  onTabChange(event: MatTabChangeEvent): void {
+    const selectedTabSymbol = this.wallet[event.index];
+    this.selectedSymbolId = selectedTabSymbol;
+    this.selectedCrypto = this.extractCryptoPart(selectedTabSymbol);
+    console.log(this.selectedCrypto + ' selectedcrypto');
   }
 }

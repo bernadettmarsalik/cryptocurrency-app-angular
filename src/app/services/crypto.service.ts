@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, map } from 'rxjs';
+import { Observable, catchError, forkJoin, map, throwError } from 'rxjs';
 import {
   EXCHANGE_ID_COINBASE,
   SYMBOL_TYPE_SPOT,
@@ -16,7 +16,6 @@ import { HistoricalDataModel } from '../models/HistoricalData.model';
 export class CryptoService {
   private readonly API_KEY: string = '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9';
   private readonly API_URL = 'https://api.coinapi.io/v1';
-  private readonly API_JSON_URL = 'http://localhost:3000/historicalData';
 
   symbolMetadata: SymbolMetadataModel = {
     symbol_id: 'COINBASE_SPOT_BTC_USD',
@@ -105,4 +104,29 @@ export class CryptoService {
   }
 
   saveSymbols() {}
+
+  // Váltó
+  getExchangeRate(
+    assetIdBase: string,
+    assetIdQuote: string
+  ): Observable<number> {
+    const url = `https://rest.coinapi.io/v1/exchangerate/${assetIdBase}/${assetIdQuote}`;
+    const headers = new HttpHeaders({
+      'X-CoinAPI-Key': this.API_KEY,
+    });
+
+    return this.http.get<any>(url, { headers }).pipe(
+      map((response) => {
+        if (response.rate) {
+          return response.rate;
+        } else {
+          throw new Error('Exchange rate not found in response');
+        }
+      }),
+      catchError((error) => {
+        console.error('Exchange rate request error:', error);
+        return throwError('Failed to fetch exchange rate');
+      })
+    );
+  }
 }
