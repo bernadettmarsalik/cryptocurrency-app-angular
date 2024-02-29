@@ -59,6 +59,7 @@ export class TabsComponent implements OnInit, OnDestroy {
     } else {
       console.log('No crypto added to wallet. Add one by click on "+" tab.');
     }
+    this.getChartDataForCurrentCryptoWithJson();
   }
 
   // ---------------------------------COINAPI------------------------------------------------------
@@ -163,12 +164,10 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   getChartDataForCurrentCryptoWithJson() {
-    // Assuming this.selectedSymbolId is the current crypto's symbol_id
     this.jsonService.getHistoricalData(this.selectedSymbolId).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
-        this.chartData = this.transformDataForChart(
-          cryptos as HistoricalDataModel[]
-        );
+        this.chartData = this.transformDataForChart(cryptos as any[]);
+        console.log('chartData' + this.chartData);
       },
       error: (err) => {
         console.log(err);
@@ -191,15 +190,37 @@ export class TabsComponent implements OnInit, OnDestroy {
   transformDataForChart(cryptos: HistoricalDataModel[]): any[] {
     return [
       {
-        name: 'Árfolyam',
+        name: 'Nyitó ár',
         series: cryptos.map((crypto) => ({
-          name: crypto.time_period_start,
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
           value: crypto.price_open,
+        })),
+      },
+      {
+        name: 'Legmagasabb ár',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_high,
+        })),
+      },
+      {
+        name: 'Legalacsonyabb ár',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_low,
+        })),
+      },
+      {
+        name: 'Záró ár',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_close,
         })),
       },
     ];
   }
-  // options
+
+  // NGX CHART options
   chartData: any[] = [];
   gradient: boolean = false;
   showXAxis: boolean = true;
