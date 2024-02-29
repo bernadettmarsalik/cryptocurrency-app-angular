@@ -23,6 +23,7 @@ import { CryptoComponent } from './components/dashboard/crypto/crypto.component'
 import { HttpClientModule } from '@angular/common/http';
 import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
 import { MatListModule } from '@angular/material/list';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MatListModule } from '@angular/material/list';
     HttpClientModule,
     MatListModule,
     NgbModule,
+    NgxChartsModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

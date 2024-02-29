@@ -31,6 +31,23 @@
             </tr>
           </tbody>
         </table>
+        <ngx-charts-line-chart
+          [view]="[700, 400]"
+          [scheme]="'forest'"
+          [results]="chartData"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          (select)="onSelect($event)"
+          (activate)="onActivate($event)"
+          (deactivate)="onDeactivate($event)"
+        >
+        </ngx-charts-line-chart>
       </mat-tab>
       <mat-tab label="+">
         <div class="my-4">

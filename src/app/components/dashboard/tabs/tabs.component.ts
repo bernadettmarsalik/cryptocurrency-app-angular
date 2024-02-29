@@ -6,7 +6,6 @@ import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddCryptoComponent } from '../add-crypto/add-crypto.component';
 
 @Component({
   selector: 'app-tabs',
@@ -41,16 +40,13 @@ export class TabsComponent implements OnInit, OnDestroy {
       this.walletLength = this.user.wallet.length;
       this.wallet = this.user.wallet;
 
-      // Use forEach to iterate through the wallet and get data for each crypto
       this.wallet.forEach((crypto) => {
-        // Assign the current crypto to selectedSymbolId
         this.selectedSymbolId = crypto;
 
-        // Call the method to get historical data for the current crypto
         this.getHistoricalData(this.selectedSymbolId);
       });
     } else {
-      console.log('No crypto added to wallet. Add one.');
+      console.log('No crypto added to wallet. Add one by click on "+" tab.');
     }
   }
 
@@ -96,5 +92,56 @@ export class TabsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subCrypto?.unsubscribe();
     this.subDeleteCrypto?.unsubscribe();
+  }
+
+  getChartDataForCurrentCrypto() {
+    // Assuming this.selectedSymbolId is the current crypto's symbol_id
+    this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
+      next: (cryptos: HistoricalDataModel[]) => {
+        this.chartData = this.transformDataForChart(
+          cryptos as HistoricalDataModel[]
+        );
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Chart data request is done!');
+      },
+    });
+  }
+
+  transformDataForChart(cryptos: HistoricalDataModel[]): any[] {
+    return [
+      {
+        name: 'Árfolyam',
+        series: cryptos.map((crypto) => ({
+          name: crypto.time_period_start,
+          value: crypto.price_close,
+        })),
+      },
+    ];
+  }
+  // options
+  chartData: any[] = [];
+  gradient: boolean = false;
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  showLegend: boolean = true;
+  showXAxisLabel: boolean = true;
+  showYAxisLabel: boolean = true;
+  xAxisLabel: string = 'Time Period Start';
+  yAxisLabel: string = 'Price Close';
+
+  onSelect(data: any): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data: any): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data: any): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 }
