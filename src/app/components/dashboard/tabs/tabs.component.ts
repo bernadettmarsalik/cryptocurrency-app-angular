@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JsonService } from '../../../services/json.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -32,16 +33,17 @@ export class TabsComponent implements OnInit, OnDestroy {
   usdAmount?: number;
   currentDate: Date = new Date();
   tabIndex: number = 0;
+  isDisplayedCryptosEmpty = true;
 
   constructor(
     private cryptoService: CryptoService,
     private authService: AuthService,
     private jsonService: JsonService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    // this.getAllSymbols();
     // this.cryptos$ = this.cryptoService.getHistoricalData(this.symbol_id);
     this.selectedSymbolId = '';
     this.selectedCrypto = '';
@@ -49,9 +51,9 @@ export class TabsComponent implements OnInit, OnDestroy {
     this.user = this.authService.getLoggedUser();
 
     if (this.user && this.user.wallet.length > 0) {
+      this.isDisplayedCryptosEmpty = false;
       this.walletLength = this.user.wallet.length;
       this.wallet = this.user.wallet;
-
       this.wallet.forEach((crypto) => {
         this.selectedSymbolId = crypto;
 
@@ -284,5 +286,11 @@ export class TabsComponent implements OnInit, OnDestroy {
   // modal
   openBootstrapModal(content: any) {
     this.modalService.open(content, { centered: true });
+  }
+
+  // delete
+  onDelete(symbol_id: string): void {
+    this.cryptoService.onDelete(symbol_id);
+    this.router.navigateByUrl('/dashboard');
   }
 }

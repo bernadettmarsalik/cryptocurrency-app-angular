@@ -1,16 +1,20 @@
 <section
   class="container d-flex flex-column justify-items-center justify-content-center"
 >
-  <h2 class="my-2 text-center">Historical Charts</h2>
-  <div class="d-flex">
+  <div class="d-flex flew-row justify-content-center">
+    <!-- FIRST TAB GROUP -->
     <mat-tab-group
       (selectedTabChange)="onTabChange($event)"
       [selectedIndex]="tabIndex"
+      *ngIf="!isDisplayedCryptosEmpty"
+      class="container"
     >
+      >
       <mat-tab
         *ngFor="let crypto of displayedCryptos"
         label="{{ crypto.symbol_id }}"
       >
+        <h2 class="my-2 text-center">Historical Charts</h2>
         <table class="table table-striped text-center">
           <thead>
             <tr>
@@ -36,6 +40,11 @@
               <td>{{ crypto.price_close }}</td>
               <td>{{ crypto.volume_traded }}</td>
               <td>{{ crypto.trades_count }}</td>
+              <td>
+                <button class="btn" (click)="onDelete(crypto.symbol_id)">
+                  Delete
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -171,13 +180,17 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-    <mat-tab-group>
+    <!-- SECOND TAB GROUP -->
+    <mat-tab-group class="container">
+      <mat-tab *ngIf="isDisplayedCryptosEmpty" label="Welcome">
+        <app-welcome></app-welcome>
+      </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <button
             mat-button
             type="button"
-            class="btn btn-light btn-xl"
+            class="btn btn-xl btn-light"
             (click)="openBootstrapModal(modalContent)"
           >
             +

@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
 import { MatListModule } from '@angular/material/list';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { WelcomeComponent } from './components/dashboard/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     TabsComponent,
     CryptoComponent,
     AddCryptoComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

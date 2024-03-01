@@ -21,7 +21,7 @@ export class AddCryptoComponent implements OnInit {
   userWallet: string[] = [];
   signUpObj: SignUp = { email: '', username: '', password: '', wallet: [] };
   loggedUser?: any;
-  symbols$: Observable<SymbolMetadataModel[]> = new Observable();
+  // symbols$: Observable<SymbolMetadataModel[]> = new Observable();
   popularCoins: string[] = popularCoins;
   popularCoinsFullName: string[] = popularCoinsFullName;
   submitMessage: string = '';
@@ -33,7 +33,7 @@ export class AddCryptoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.symbols$ = this.cryptoService.getAllSymbols();
+    // this.symbols$ = this.cryptoService.getAllSymbols();
 
     this.addCryptoForm = new FormGroup({
       symbolId: new FormControl('', [Validators.required]),
@@ -55,6 +55,9 @@ export class AddCryptoComponent implements OnInit {
           this.authService.updateUser(user);
           this.addCryptoForm.reset();
           this.submitMessage = 'Crypto added succesfully. ';
+          setTimeout(() => {
+            this.router.navigateByUrl('/dashboard');
+          }, 600);
         }
       } else {
         this.submitMessage = 'User not found. Please log in again.';

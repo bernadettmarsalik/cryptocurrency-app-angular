@@ -9,6 +9,8 @@ import {
 } from '../models/SymbolMetadata.model';
 import { popularCoins } from '../../assets/popularCoins';
 import { HistoricalDataModel } from '../models/HistoricalData.model';
+import { SignUp } from '../models/SignUp.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +47,7 @@ export class CryptoService {
     size_precision: 0,
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getHistoricalData(symbol_id: string): Observable<HistoricalDataModel[]> {
     const oneWeekAgo = new Date();
@@ -67,11 +69,9 @@ export class CryptoService {
     const observables: Observable<any>[] = [];
 
     wallet.forEach((symbol_id) => {
-      // For each symbol in the wallet, create an observable to get historical data
       observables.push(this.getHistoricalData(symbol_id));
     });
 
-    // Use forkJoin to combine observables and get results once all are completed
     return forkJoin(observables);
   }
 
@@ -104,6 +104,26 @@ export class CryptoService {
   }
 
   saveSymbols() {}
+
+  // Delete
+  onDelete(symbol_id: string): void {
+    const user = this.authService.getLoggedUser();
+
+    if (user) {
+      console.log(user.wallet + 'wallet before delete');
+      if (user.wallet.includes(symbol_id)) {
+        const removeIndex = user.wallet.indexOf(symbol_id);
+        console.log('remove symbolid' + removeIndex);
+        user.wallet.splice(removeIndex, 1);
+        console.log(user.wallet + 'wallet after delete');
+        confirm(`Are you sure you want to delete crypto ${symbol_id}`);
+        this.authService.updateUser(user);
+        console.log('Crypto deleted succesfully.');
+      } else {
+        alert('User not found. Please log in again.');
+      }
+    }
+  }
 
   // Váltó
   getExchangeRate(
