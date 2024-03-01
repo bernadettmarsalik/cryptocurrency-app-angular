@@ -1,20 +1,19 @@
 <section
   class="container d-flex flex-column justify-items-center justify-content-center"
 >
-  <div class="d-flex flew-row justify-content-center">
+  <h2 class="my-2 text-center">Historical Charts</h2>
+  <div class="d-flex">
     <!-- FIRST TAB GROUP -->
     <mat-tab-group
       (selectedTabChange)="onTabChange($event)"
       [selectedIndex]="tabIndex"
       *ngIf="!isDisplayedCryptosEmpty"
-      class="container"
     >
       >
       <mat-tab
         *ngFor="let crypto of displayedCryptos"
         label="{{ crypto.symbol_id }}"
       >
-        <h2 class="my-2 text-center">Historical Charts</h2>
         <table class="table table-striped text-center">
           <thead>
             <tr>
@@ -41,7 +40,12 @@
               <td>{{ crypto.volume_traded }}</td>
               <td>{{ crypto.trades_count }}</td>
               <td>
-                <button class="btn" (click)="onDelete(crypto.symbol_id)">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="onDelete(crypto.symbol_id)"
+                >
+                  <mat-icon>delete</mat-icon>
                   Delete
                 </button>
               </td>
@@ -116,9 +120,12 @@
 
                     <div class="mb-2 text-center">
                       <button
-                        class="btn btn-sm btn-primary"
+                        mat-raised-button
+                        color="primary"
                         (click)="calculateValue()"
                       >
+                        <mat-icon>autorenew</mat-icon>
+
                         Calculate
                       </button>
                     </div>
@@ -181,7 +188,7 @@
       </mat-tab>
     </mat-tab-group>
     <!-- SECOND TAB GROUP -->
-    <mat-tab-group class="container">
+    <mat-tab-group>
       <mat-tab *ngIf="isDisplayedCryptosEmpty" label="Welcome">
         <app-welcome></app-welcome>
       </mat-tab>
@@ -190,7 +197,7 @@
           <button
             mat-button
             type="button"
-            class="btn btn-xl btn-light"
+            class="btn btn-light btn-xl"
             (click)="openBootstrapModal(modalContent)"
           >
             +
