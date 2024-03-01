@@ -1,7 +1,6 @@
 <section
   class="container d-flex flex-column justify-items-center justify-content-center"
 >
-  <h2 class="my-2 text-center">Historical Charts</h2>
   <div class="d-flex">
     <!-- FIRST TAB GROUP -->
     <mat-tab-group
@@ -14,6 +13,8 @@
         *ngFor="let crypto of displayedCryptos"
         label="{{ crypto.symbol_id }}"
       >
+        <h2 class="my-2 text-center">Historical Charts</h2>
+
         <table class="table table-striped text-center">
           <thead>
             <tr>
