@@ -61,9 +61,9 @@ export class AuthService {
         const localUsers = localStorage.getItem('appUsers');
         const users: SignUp[] = localUsers ? JSON.parse(localUsers) : [];
         console.log('All users from local storage:', users);
-        const foundUser = users.find((user) => user.username === username);
-        console.log('Found user:', foundUser);
-        return foundUser;
+        const foundUserName = users.find((user) => user.username === username);
+        console.log('Found user from service:', foundUserName);
+        return foundUserName;
       }
     }
     return undefined;
@@ -74,6 +74,7 @@ export class AuthService {
     let users: SignUp[] = localUsers ? JSON.parse(localUsers) : [];
 
     users = users.map((u) => (u.username === user.username ? user : u));
+    users = users.map((e) => (e.email === user.email ? user : e));
 
     localStorage.setItem('appUsers', JSON.stringify(users));
   }

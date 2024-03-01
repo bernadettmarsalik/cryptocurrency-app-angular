@@ -25,6 +25,7 @@ import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto
 import { MatListModule } from '@angular/material/list';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { WelcomeComponent } from './components/dashboard/welcome/welcome.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { WelcomeComponent } from './components/dashboard/welcome/welcome.compone
     MatListModule,
     NgbModule,
     NgxChartsModule,
+    MatTooltipModule,
   ],
   providers: [provideAnimationsAsync(), AuthService],
   bootstrap: [AppComponent],

@@ -42,12 +42,14 @@
               <td>{{ crypto.trades_count }}</td>
               <td>
                 <button
-                  mat-raised-button
+                  mat-mini-fab
+                  matTooltip="Delete Crypto"
                   color="warn"
+                  aria-label="Example icon-button with a heart icon"
                   (click)="onDelete(crypto.symbol_id)"
+                  class="me-2"
                 >
                   <mat-icon>delete</mat-icon>
-                  Delete
                 </button>
               </td>
             </tr>
@@ -191,6 +193,16 @@
     <!-- SECOND TAB GROUP -->
     <mat-tab-group>
       <mat-tab *ngIf="isDisplayedCryptosEmpty" label="Welcome">
+        <div class="my-5 text-center">
+          <h1 class="text-center text-uppercase my-3">Welcome!</h1>
+          <h3 class="mb-5">
+            Seems like you have no save cryptocurrencies yet. You can add one by
+            the
+            <strong>"+"</strong> tab or with <strong>"Add Crypto"</strong> on
+            the side navigation.
+          </h3>
+        </div>
+
         <app-welcome></app-welcome>
       </mat-tab>
       <mat-tab>
@@ -198,6 +210,7 @@
           <button
             mat-button
             type="button"
+            color="primary"
             class="btn btn-light btn-xl"
             (click)="openBootstrapModal(modalContent)"
           >
@@ -207,7 +220,6 @@
         <!-- modal tartalom -->
         <ng-template #modalContent let-modal>
           <div class="modal-header">
-            <h3 class="modal-title">Save crypto</h3>
             <button
               type="button"
               class="btn btn-sm btn-close close"

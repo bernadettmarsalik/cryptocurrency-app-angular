@@ -11,9 +11,10 @@ import { AuthService } from '../../../services/auth.service';
 export class SidebarComponent {
   loggedUser?: SignUp;
   constructor(private router: Router, private authService: AuthService) {
-    const localUser = localStorage.getItem('loggedUser');
+    const localUser = this.authService.getLoggedUser();
+    console.log(localUser + 'localuser');
     if (localUser != null) {
-      this.loggedUser = JSON.parse(localUser);
+      this.loggedUser = localUser;
       console.log('loggedUser:', this.loggedUser);
       this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
         this.authService.isLoggedIn = isLoggedIn;
