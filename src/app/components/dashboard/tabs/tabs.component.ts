@@ -31,6 +31,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   cryptoAmount?: number;
   usdAmount?: number;
   currentDate: Date = new Date();
+  tabIndex: number = 0;
 
   constructor(
     private cryptoService: CryptoService,
@@ -114,9 +115,6 @@ export class TabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  links = ['+'];
-  activeLink = this.links[0];
-
   // ---------------------------------JSON SERVER------------------------------------------------------
 
   getHistoricalDataWithJson(symbol_id: string) {
@@ -186,40 +184,6 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   // ---------------------------------NGX CHARTS------------------------------------------------------
-
-  transformDataForChart(cryptos: HistoricalDataModel[]): any[] {
-    return [
-      {
-        name: 'Nyitó ár',
-        series: cryptos.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_open,
-        })),
-      },
-      {
-        name: 'Legmagasabb ár',
-        series: cryptos.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_high,
-        })),
-      },
-      {
-        name: 'Legalacsonyabb ár',
-        series: cryptos.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_low,
-        })),
-      },
-      {
-        name: 'Záró ár',
-        series: cryptos.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_close,
-        })),
-      },
-    ];
-  }
-
   // NGX CHART options
   chartData: any[] = [];
   gradient: boolean = false;
@@ -243,9 +207,42 @@ export class TabsComponent implements OnInit, OnDestroy {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
+  transformDataForChart(cryptos: HistoricalDataModel[]): any[] {
+    return [
+      {
+        name: 'Price Open',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_open,
+        })),
+      },
+      {
+        name: 'Price High',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_high,
+        })),
+      },
+      {
+        name: 'Price Low',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_low,
+        })),
+      },
+      {
+        name: 'Price Close',
+        series: cryptos.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_close,
+        })),
+      },
+    ];
+  }
+
   calculateValue(): void {
     if (this.cryptoAmount !== undefined) {
-      // Convert crypto to USD
+      // crypto  -> USD
       this.cryptoService
         .getExchangeRate(this.selectedCrypto!, 'USD')
         .subscribe({
@@ -257,7 +254,7 @@ export class TabsComponent implements OnInit, OnDestroy {
           },
         });
     } else if (this.usdAmount !== undefined) {
-      // Convert USD to crypto
+      //  USD -> crypto
       this.cryptoService
         .getExchangeRate('USD', this.selectedCrypto!)
         .subscribe({
@@ -276,10 +273,13 @@ export class TabsComponent implements OnInit, OnDestroy {
     return parts[2];
   }
 
+  // tab váltásával más crypto
   onTabChange(event: MatTabChangeEvent): void {
     const selectedTabSymbol = this.wallet[event.index];
     this.selectedSymbolId = selectedTabSymbol;
     this.selectedCrypto = this.extractCryptoPart(selectedTabSymbol);
     console.log(this.selectedCrypto + ' selectedcrypto');
   }
+
+  // modal
 }

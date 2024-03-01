@@ -1,14 +1,17 @@
 <section
   class="container d-flex flex-column justify-items-center justify-content-center"
 >
-  <h2 class="my-3 text-center">Historical Charts</h2>
+  <h2 class="my-2 text-center">Historical Charts</h2>
 
-  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+  <mat-tab-group
+    (selectedTabChange)="onTabChange($event)"
+    [selectedIndex]="tabIndex"
+  >
     <mat-tab
       *ngFor="let crypto of displayedCryptos"
       label="{{ crypto.symbol_id }}"
     >
-      <table class="table table-striped">
+      <table class="table table-striped text-center">
         <thead>
           <tr>
             <th>Exchange</th>
@@ -54,18 +57,18 @@
         >
         </ngx-charts-line-chart>
       </div>
-      <div class="container mt-4">
-        <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="container mt-5 d-flex justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 g-5">
           <div class="col">
             <div
-              class="card h-100 rounded-5 text-center mb-3"
+              class="card h-100 rounded-5 text-center"
               style="max-width: 540px"
             >
               <div class="row g-2">
-                <div class="col-md-4">
+                <div class="col-md ms-3">
                   <img
                     src="../../../../assets/usd.jpg"
-                    class="img-fluid rounded-circle py-5"
+                    class="img-fluid rounded-circle my-5"
                     alt="..."
                   />
                 </div>
@@ -117,56 +120,48 @@
                       {{ usdAmount == undefined ? "$" : selectedCrypto }}
                     </h2>
                   </div>
-                  <p class="card-text mt-2">
-                    <small class="text-body-secondary"
-                      >Exchange data last updated
-                      {{ currentDate | date : "yyyy-MM-dd HH:mm:ss" }}</small
-                    >
-                  </p>
                 </div>
               </div>
+              <p class="card-text mt-2">
+                <small class="text-body-secondary"
+                  >Exchange data last updated
+                  {{ currentDate | date : "yyyy-MM-dd HH:mm:ss" }}</small
+                >
+              </p>
             </div>
           </div>
           <!-- képek -->
           <div class="col">
             <div
-              class="card h-100 rounded-5 text-center mb-3"
+              class="card h-100 rounded-5 text-center"
               style="max-width: 540px"
             >
-              <h2 class="card-title my-4">Crypto Exchanger</h2>
+              <h2 class="card-title my-4">Smooth Operations</h2>
 
-              <div class="row g-2">
-                <div class="col-md-3">
+              <div class="row g-2 mx-2">
+                <div class="col-md">
                   <img
-                    src="../../../../assets/money.jpg"
-                    class="img-fluid rounded-circle py-5"
+                    src="../../../../assets/coins.jpg"
+                    class="img-fluid rounded-circle p-2"
                     alt="..."
                   />
+                  <h3 class="text-uppercase">Buy</h3>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md">
                   <img
-                    src="../../../../assets/money.jpg"
-                    class="img-fluid rounded-circle py-5"
+                    src="../../../../assets/piggybank.jpg"
+                    class="img-fluid rounded-circle p-2"
                     alt="..."
                   />
+                  <h3 class="text-uppercase">Stock</h3>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md">
                   <img
                     src="../../../../assets/money.jpg"
-                    class="img-fluid rounded-circle py-5"
+                    class="img-fluid rounded-circle p-2"
                     alt="..."
                   />
-                </div>
-              </div>
-
-              <div class="col-md-8 py-2">
-                <div class="card-body">
-                  <p class="card-text">
-                    Calculate the current value of your coins!
-                  </p>
-                  <div class="row">
-                    <div class="col my-2"></div>
-                  </div>
+                  <h3 class="text-uppercase">Trade</h3>
                 </div>
               </div>
             </div>
@@ -175,9 +170,53 @@
         <!-- képek vége -->
       </div>
     </mat-tab>
-    <mat-tab label="+">
-      <div class="my-4">
-        <app-add-crypto></app-add-crypto>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <button
+          mat-button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          +
+        </button>
+      </ng-template>
+      <!-- modal -->
+
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </mat-tab>
   </mat-tab-group>
