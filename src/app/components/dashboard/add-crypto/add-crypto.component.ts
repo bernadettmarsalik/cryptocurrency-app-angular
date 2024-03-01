@@ -9,6 +9,7 @@ import { SignUp } from '../../../models/SignUp.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { Observable } from 'rxjs';
 import { CryptoService } from '../../../services/crypto.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-crypto',
@@ -23,10 +24,12 @@ export class AddCryptoComponent implements OnInit {
   symbols$: Observable<SymbolMetadataModel[]> = new Observable();
   popularCoins: string[] = popularCoins;
   popularCoinsFullName: string[] = popularCoinsFullName;
+  submitMessage: string = '';
 
   constructor(
     private authService: AuthService,
-    private cryptoService: CryptoService
+    private cryptoService: CryptoService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,13 +54,13 @@ export class AddCryptoComponent implements OnInit {
           user.wallet.push(symbolWalletData);
           this.authService.updateUser(user);
           this.addCryptoForm.reset();
-          console.log('Crypto added');
+          this.submitMessage = 'Crypto added succesfully. ';
         }
       } else {
-        alert('User not found. Please log in again.');
+        this.submitMessage = 'User not found. Please log in again.';
       }
     } else {
-      alert('Invalid form, please check your inputs.');
+      this.submitMessage = 'Invalid form, please check your inputs.';
     }
   }
 

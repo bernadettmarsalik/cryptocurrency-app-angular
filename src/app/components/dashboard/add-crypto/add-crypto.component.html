@@ -1,21 +1,29 @@
-<div class="container">
-  <form
-    [formGroup]="addCryptoForm"
-    (ngSubmit)="onSubmit()"
-    class="row g-3 align-items-end"
-  >
-    <div class="col-md-3">
-      <label class="form-label" for="symbolId">Select Cryptocurrency:</label>
-      <select class="form-select" formControlName="symbolId" id="symbolId">
-        <option *ngFor="let coin of popularCoins; let i = index" [value]="coin">
-          {{ popularCoinsFullName[i] }} - {{ coin }}
-        </option>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <button type="submit" class="btn btn-sm btn-primary">
-        Add Cryptocurrency
-      </button>
-    </div>
-  </form>
+<div class="container-fluid mx-auto">
+  <div *ngIf="submitMessage == ''">
+    <form
+      [formGroup]="addCryptoForm"
+      (ngSubmit)="onSubmit()"
+      class="row g-3 d-flex align-items-end justify-content-center"
+    >
+      <div class="col-md">
+        <label class="form-label" for="symbolId">Select Cryptocurrency:</label>
+        <select class="form-select" formControlName="symbolId" id="symbolId">
+          <option
+            *ngFor="let coin of popularCoins; let i = index"
+            [value]="coin"
+          >
+            {{ popularCoinsFullName[i] }} - {{ coin }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md">
+        <button type="submit" class="btn btn-primary">
+          Save Cryptocurrency
+        </button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="submitMessage != ''" class="row text-center mt-3">
+    <h2>{{ submitMessage }}</h2>
+  </div>
 </div>

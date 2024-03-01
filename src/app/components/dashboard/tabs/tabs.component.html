@@ -2,222 +2,213 @@
   class="container d-flex flex-column justify-items-center justify-content-center"
 >
   <h2 class="my-2 text-center">Historical Charts</h2>
-
-  <mat-tab-group
-    (selectedTabChange)="onTabChange($event)"
-    [selectedIndex]="tabIndex"
-  >
-    <mat-tab
-      *ngFor="let crypto of displayedCryptos"
-      label="{{ crypto.symbol_id }}"
+  <div class="d-flex">
+    <mat-tab-group
+      (selectedTabChange)="onTabChange($event)"
+      [selectedIndex]="tabIndex"
     >
-      <table class="table table-striped text-center">
-        <thead>
-          <tr>
-            <th>Exchange</th>
-            <th>Price Close</th>
-            <th>Period start</th>
-            <th>Period end</th>
-            <th>Price high</th>
-            <th>Price low</th>
-            <th>Price close</th>
-            <th>Volume traded</th>
-            <th>Trades count</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ crypto.symbol_id }}</td>
-            <td>{{ crypto.price_close }}</td>
-            <td>{{ crypto.time_period_start }}</td>
-            <td>{{ crypto.time_period_end }}</td>
-            <td>{{ crypto.price_high }}</td>
-            <td>{{ crypto.price_low }}</td>
-            <td>{{ crypto.price_close }}</td>
-            <td>{{ crypto.volume_traded }}</td>
-            <td>{{ crypto.trades_count }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="max-height: fit-content">
-        <ngx-charts-line-chart
-          [scheme]="'nightLights'"
-          [results]="chartData"
-          [gradient]="gradient"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [legend]="showLegend"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          (select)="onSelect($event)"
-          (activate)="onActivate($event)"
-          (deactivate)="onDeactivate($event)"
-        >
-        </ngx-charts-line-chart>
-      </div>
-      <div class="container mt-5 d-flex justify-content-center">
-        <div class="row row-cols-1 row-cols-md-2 g-5">
-          <div class="col">
-            <div
-              class="card h-100 rounded-5 text-center"
-              style="max-width: 540px"
-            >
-              <div class="row g-2">
-                <div class="col-md ms-3">
-                  <img
-                    src="../../../../assets/usd.jpg"
-                    class="img-fluid rounded-circle my-5"
-                    alt="..."
-                  />
-                </div>
-                <div class="col-md-8 py-2">
-                  <div class="card-body">
-                    <h2 class="card-title">Crypto Exchanger</h2>
-                    <p class="card-text">
-                      Calculate the current value of your coins!
-                    </p>
-                    <div class="row">
-                      <div class="col my-2">
-                        <label for="cryptoInput" class="form-label"
-                          >Enter amount of {{ selectedCrypto }}</label
-                        >
-                        <input
-                          class="form-control"
-                          type="number"
-                          id="cryptoInput"
-                          [(ngModel)]="cryptoAmount"
-                        />
-                      </div>
+      <mat-tab
+        *ngFor="let crypto of displayedCryptos"
+        label="{{ crypto.symbol_id }}"
+      >
+        <table class="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Exchange</th>
+              <th>Price Close</th>
+              <th>Period start</th>
+              <th>Period end</th>
+              <th>Price high</th>
+              <th>Price low</th>
+              <th>Price close</th>
+              <th>Volume traded</th>
+              <th>Trades count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ crypto.symbol_id }}</td>
+              <td>{{ crypto.price_close }}</td>
+              <td>{{ crypto.time_period_start }}</td>
+              <td>{{ crypto.time_period_end }}</td>
+              <td>{{ crypto.price_high }}</td>
+              <td>{{ crypto.price_low }}</td>
+              <td>{{ crypto.price_close }}</td>
+              <td>{{ crypto.volume_traded }}</td>
+              <td>{{ crypto.trades_count }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="max-height: fit-content">
+          <ngx-charts-line-chart
+            [scheme]="'nightLights'"
+            [results]="chartData"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)"
+            (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)"
+          >
+          </ngx-charts-line-chart>
+        </div>
+        <div class="container mt-5 d-flex justify-content-center">
+          <div class="row row-cols-1 row-cols-md-2 g-5">
+            <div class="col">
+              <div
+                class="card h-100 rounded-5 text-center"
+                style="max-width: 540px"
+              >
+                <div class="row g-2">
+                  <div class="col-md ms-3">
+                    <img
+                      src="../../../../assets/usd.jpg"
+                      class="img-fluid rounded-circle my-5"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="col-md-8 py-2">
+                    <div class="card-body">
+                      <h2 class="card-title">Crypto Exchanger</h2>
+                      <p class="card-text">
+                        Calculate the current value of your coins!
+                      </p>
+                      <div class="row">
+                        <div class="col my-2">
+                          <label for="cryptoInput" class="form-label"
+                            >Enter amount of {{ selectedCrypto }}</label
+                          >
+                          <input
+                            class="form-control"
+                            type="number"
+                            id="cryptoInput"
+                            [(ngModel)]="cryptoAmount"
+                          />
+                        </div>
 
-                      <div class="col mt-2">
-                        <label for="usdInput" class="form-label"
-                          >Enter value in USD:</label
-                        >
-                        <input
-                          class="form-control"
-                          type="number"
-                          id="usdInput"
-                          [(ngModel)]="usdAmount"
-                        />
+                        <div class="col mt-2">
+                          <label for="usdInput" class="form-label"
+                            >Enter value in USD:</label
+                          >
+                          <input
+                            class="form-control"
+                            type="number"
+                            id="usdInput"
+                            [(ngModel)]="usdAmount"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="mb-2 text-center">
-                    <button
-                      class="btn btn-sm btn-primary"
-                      (click)="calculateValue()"
-                    >
-                      Calculate
-                    </button>
-                  </div>
+                    <div class="mb-2 text-center">
+                      <button
+                        class="btn btn-sm btn-primary"
+                        (click)="calculateValue()"
+                      >
+                        Calculate
+                      </button>
+                    </div>
 
-                  <div *ngIf="calculatedValue !== undefined">
-                    <h2 class="text-primary">
-                      Current value: {{ calculatedValue.toFixed(6) }}
-                      {{ usdAmount == undefined ? "$" : selectedCrypto }}
-                    </h2>
+                    <div *ngIf="calculatedValue !== undefined">
+                      <h2 class="text-primary">
+                        Current value: {{ calculatedValue.toFixed(6) }}
+                        {{ usdAmount == undefined ? "$" : selectedCrypto }}
+                      </h2>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <p class="card-text mt-2">
-                <small class="text-body-secondary"
-                  >Exchange data last updated
-                  {{ currentDate | date : "yyyy-MM-dd HH:mm:ss" }}</small
-                >
-              </p>
-            </div>
-          </div>
-          <!-- képek -->
-          <div class="col">
-            <div
-              class="card h-100 rounded-5 text-center"
-              style="max-width: 540px"
-            >
-              <h2 class="card-title my-4">Smooth Operations</h2>
-
-              <div class="row g-2 mx-2">
-                <div class="col-md">
-                  <img
-                    src="../../../../assets/coins.jpg"
-                    class="img-fluid rounded-circle p-2"
-                    alt="..."
-                  />
-                  <h3 class="text-uppercase">Buy</h3>
-                </div>
-                <div class="col-md">
-                  <img
-                    src="../../../../assets/piggybank.jpg"
-                    class="img-fluid rounded-circle p-2"
-                    alt="..."
-                  />
-                  <h3 class="text-uppercase">Stock</h3>
-                </div>
-                <div class="col-md">
-                  <img
-                    src="../../../../assets/money.jpg"
-                    class="img-fluid rounded-circle p-2"
-                    alt="..."
-                  />
-                  <h3 class="text-uppercase">Trade</h3>
-                </div>
+                <p class="card-text mt-2">
+                  <small class="text-body-secondary"
+                    >Exchange data last updated
+                    {{ currentDate | date : "yyyy-MM-dd HH:mm:ss" }}</small
+                  >
+                </p>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- képek vége -->
-      </div>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <button
-          mat-button
-          type="button"
-          class="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          +
-        </button>
-      </ng-template>
-      <!-- modal -->
-
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">...</div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
+            <!-- képek -->
+            <div class="col">
+              <div
+                class="card h-100 rounded-5 text-center"
+                style="max-width: 540px"
               >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
+                <h2 class="card-title my-4">Smooth Operations</h2>
+
+                <div class="row g-2 mx-2">
+                  <div class="col-md">
+                    <img
+                      src="../../../../assets/coins.jpg"
+                      class="img-fluid rounded-circle p-2"
+                      alt="..."
+                    />
+                    <h3 class="text-uppercase">Buy</h3>
+                  </div>
+                  <div class="col-md">
+                    <img
+                      src="../../../../assets/piggybank.jpg"
+                      class="img-fluid rounded-circle p-2"
+                      alt="..."
+                    />
+                    <h3 class="text-uppercase">Stock</h3>
+                  </div>
+                  <div class="col-md">
+                    <img
+                      src="../../../../assets/money.jpg"
+                      class="img-fluid rounded-circle p-2"
+                      alt="..."
+                    />
+                    <h3 class="text-uppercase">Trade</h3>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+          <!-- képek vége -->
         </div>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+      </mat-tab>
+    </mat-tab-group>
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <button
+            mat-button
+            type="button"
+            class="btn btn-light btn-xl"
+            (click)="openBootstrapModal(modalContent)"
+          >
+            +
+          </button>
+        </ng-template>
+        <!-- modal tartalom -->
+        <ng-template #modalContent let-modal>
+          <div class="modal-header">
+            <h3 class="modal-title">Save crypto</h3>
+            <button
+              type="button"
+              class="btn btn-sm btn-close close"
+              (click)="modal.dismiss()"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="w-100">
+              <app-add-crypto></app-add-crypto>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-light"
+              (click)="modal.close('Save click')"
+            >
+              Back to cryptos
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </section>

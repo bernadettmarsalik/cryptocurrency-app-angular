@@ -273,7 +273,7 @@ export class TabsComponent implements OnInit, OnDestroy {
     return parts[2];
   }
 
-  // tab váltásával más crypto
+  // tab váltásával más crypto chart
   onTabChange(event: MatTabChangeEvent): void {
     const selectedTabSymbol = this.wallet[event.index];
     this.selectedSymbolId = selectedTabSymbol;
@@ -282,4 +282,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   // modal
+  openBootstrapModal(content: any) {
+    this.modalService.open(content, { centered: true });
+  }
 }
