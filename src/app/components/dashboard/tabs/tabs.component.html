@@ -10,8 +10,8 @@
     >
       >
       <mat-tab
-        *ngFor="let crypto of displayedCryptos"
-        label="{{ crypto.symbol_id }}"
+        *ngFor="let crypto of displayedCryptos$ | async"
+        label="{{ selectedSymbolId }}"
       >
         <h2 class="my-2 text-center">Historical Charts</h2>
 
@@ -31,7 +31,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>{{ crypto.symbol_id }}</td>
+              <td>{{ selectedSymbolId }}</td>
               <td>{{ crypto.price_close }}</td>
               <td>{{ crypto.time_period_start }}</td>
               <td>{{ crypto.time_period_end }}</td>

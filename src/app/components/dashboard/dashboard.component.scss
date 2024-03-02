@@ -11,12 +11,20 @@
 
 .sidebar {
   flex: 0 0 auto;
-  width: 250px;
-  padding: 20px;
+  width: 25%;
+  padding: 10px;
 }
 
 .main {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    flex: 0 0 auto;
+    width: 250px;
+    padding: 20px;
+  }
 }

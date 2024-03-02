@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CryptoService } from '../../../services/crypto.service';
 import { SignUp } from '../../../models/SignUp.model';
-import { Observable, Subscription, map } from 'rxjs';
 import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
@@ -9,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JsonService } from '../../../services/json.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
   styleUrl: './tabs.component.scss',
 })
 export class TabsComponent implements OnInit, OnDestroy {
-  // cryptos$: Observable<HistoricalDataModel[]> = new Observable();
   symbol_id: string = '';
   cryptoId: string = '';
   symbols: any[] = [];
@@ -33,6 +32,8 @@ export class TabsComponent implements OnInit, OnDestroy {
   currentDate: Date = new Date();
   tabIndex: number = 0;
   isDisplayedCryptosEmpty = true;
+  private historicalDataSubscription: Subscription | undefined;
+  displayedCryptos$: Observable<HistoricalDataModel[]> | undefined;
 
   constructor(
     private cryptoService: CryptoService,
@@ -55,32 +56,51 @@ export class TabsComponent implements OnInit, OnDestroy {
           'selectedSymbolId from ngOnInit is: ' + this.selectedSymbolId
         );
       });
-      console.log(
-        'selectedSymbolId from ngOnInit is: ' + this.selectedSymbolId
+
+      // Assign the observable
+      this.displayedCryptos$ = this.getHistoricalDataWithApi();
+
+      // Subscribe and store the subscription
+      this.historicalDataSubscription = this.displayedCryptos$.subscribe(
+        (cryptos: HistoricalDataModel[]) => {
+          this.displayedCryptos = cryptos;
+          console.log('displayedCryptos', JSON.stringify(cryptos));
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          console.log('Crypto request is done!');
+        }
       );
-      this.getHistoricalDataWithApi();
+
+      this.getChartDataForCurrentCrypto();
     } else {
-      console.log('No crypto added to wallet. Add one by click on "+" tab.');
+      console.log(
+        'No crypto added to the wallet. Add one by clicking on the "+" tab.'
+      );
     }
-    this.getChartDataForCurrentCrypto();
   }
 
   // ---------------------------------COINAPI------------------------------------------------------
 
-  getHistoricalDataWithApi() {
-    console.log('symbol_id from getHistoricalData ' + this.selectedSymbolId);
-    this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
-      next: (cryptos: HistoricalDataModel[]) => {
-        this.displayedCryptos = cryptos;
-        console.log('displayedCryptos', JSON.stringify(cryptos));
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('Crypto request is done!');
-      },
-    });
+  // getHistoricalDataWithApi() {
+  //   console.log('symbol_id from getHistoricalData ' + this.selectedSymbolId);
+  //   this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
+  //     next: (cryptos: HistoricalDataModel[]) => {
+  //       this.displayedCryptos = cryptos;
+  //       console.log('displayedCryptos', JSON.stringify(cryptos));
+  //     },
+  //     error: (err) => {
+  //       console.log(err);
+  //     },
+  //     complete: () => {
+  //       console.log('Crypto request is done!');
+  //     },
+  //   });
+  // }
+  getHistoricalDataWithApi(): Observable<HistoricalDataModel[]> {
+    return this.cryptoService.getHistoricalData(this.selectedSymbolId);
   }
 
   getUserSymbols(): void {
@@ -172,6 +192,10 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.historicalDataSubscription) {
+      this.historicalDataSubscription.unsubscribe();
+    }
+
     this.selectedSymbolId = '';
     this.selectedCrypto = '';
   }
