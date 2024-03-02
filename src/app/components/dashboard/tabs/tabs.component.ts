@@ -50,12 +50,13 @@ export class TabsComponent implements OnInit, OnDestroy {
       this.isDisplayedCryptosEmpty = false;
       this.walletLength = this.user.wallet.length;
       this.wallet = this.user.wallet;
-      this.wallet.forEach((cryptoId) => {
-        this.selectedSymbolId = cryptoId;
-        console.log(
-          'selectedSymbolId from ngOnInit is: ' + this.selectedSymbolId
-        );
-      });
+
+      // Set the initial selectedSymbolId based on the first item in the wallet array
+      this.selectedSymbolId = this.wallet[0];
+
+      console.log(
+        'selectedSymbolId from ngOnInit is: ' + this.selectedSymbolId
+      );
 
       // Assign the observable
       this.displayedCryptos$ = this.getHistoricalDataWithApi();
@@ -290,7 +291,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   //   return parts[2];
   // }
 
-  //  tab váltásával más crypto chart
+  // tab váltásával más crypto chart
   onTabChange(event: MatTabChangeEvent): void {
     const selectedTabIndex = event.index;
 
@@ -298,6 +299,9 @@ export class TabsComponent implements OnInit, OnDestroy {
       this.selectedSymbolId = this.wallet[selectedTabIndex];
       this.selectedCrypto = this.extractCryptoPart(this.selectedSymbolId);
       console.log(this.selectedCrypto + ' selectedcrypto');
+
+      // Load data for the selected cryptocurrency (you may need to call your data-loading method)
+      this.displayedCryptos$ = this.getHistoricalDataWithApi();
     } else {
       console.error('Invalid selected tab index or wallet array.');
     }

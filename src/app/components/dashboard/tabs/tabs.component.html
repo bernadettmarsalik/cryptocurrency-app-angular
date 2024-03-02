@@ -8,10 +8,9 @@
       [selectedIndex]="tabIndex"
       *ngIf="!isDisplayedCryptosEmpty"
     >
-      >
       <mat-tab
-        *ngFor="let crypto of displayedCryptos$ | async"
-        label="{{ selectedSymbolId }}"
+        *ngFor="let cryptoId of wallet; let i = index"
+        label="{{ cryptoId }}"
       >
         <h2 class="my-2 text-center">Historical Charts</h2>
 
@@ -30,7 +29,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr *ngFor="let crypto of displayedCryptos$ | async">
               <td>{{ selectedSymbolId }}</td>
               <td>{{ crypto.price_close }}</td>
               <td>{{ crypto.time_period_start }}</td>
