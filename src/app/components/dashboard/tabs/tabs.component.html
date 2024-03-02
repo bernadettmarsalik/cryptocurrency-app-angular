@@ -7,13 +7,14 @@
       (selectedTabChange)="onTabChange($event)"
       [selectedIndex]="tabIndex"
       *ngIf="!isDisplayedCryptosEmpty"
+      dynamicHeight
     >
       <mat-tab
         *ngFor="let cryptoId of wallet; let i = index"
         label="{{ cryptoId }}"
       >
         <h2 class="my-2 text-center">Historical Charts</h2>
-
+        <!-- 
         <table class="table table-striped text-center">
           <thead>
             <tr>
@@ -30,10 +31,12 @@
           </thead>
           <tbody>
             <tr *ngFor="let crypto of displayedCryptos$ | async">
-              <td>{{ selectedSymbolId }}</td>
+              <td>
+                <small>BITSTAMP SPOT </small> {{ selectedSymbolId }} / USD
+              </td>
               <td>{{ crypto.price_close }}</td>
-              <td>{{ crypto.time_period_start }}</td>
-              <td>{{ crypto.time_period_end }}</td>
+              <td>{{ crypto.time_period_start | date }}</td>
+              <td>{{ crypto.time_period_end | date }}</td>
               <td>{{ crypto.price_high }}</td>
               <td>{{ crypto.price_low }}</td>
               <td>{{ crypto.price_close }}</td>
@@ -53,7 +56,7 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         <div style="max-height: fit-content">
           <ngx-charts-line-chart
             [scheme]="'nightLights'"
