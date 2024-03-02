@@ -11,6 +11,11 @@ import { AuthService } from './auth.service';
 export class CryptoService {
   private readonly API_KEY: string = '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9';
   private readonly API_URL = 'http://api.coinapi.io/v1';
+  private readonly headers = {
+    Accept: 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'X-CoinAPI-Key': '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9',
+  };
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -18,13 +23,7 @@ export class CryptoService {
     let symbolId = `BITSTAMP_SPOT_${cryptoId}_USD`;
     const url = `http://api.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_${cryptoId}_USD/history?period_id=1DAY&limit=7`;
 
-    const headers = new HttpHeaders({
-      Accept: 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'X-CoinAPI-Key': this.API_KEY,
-    });
-
-    return this.http.get<HistoricalDataModel[]>(url, { headers });
+    return this.http.get<HistoricalDataModel[]>(url, { headers: this.headers });
   }
 
   getHistoricalDataByExchange(cryptoId: string) {
@@ -40,15 +39,11 @@ export class CryptoService {
 
   getAllSymbols(): Observable<SymbolMetadataModel[]> {
     // A túl sok kérés miatt és 429 status miatt limitálni kellett a lekért adatot
-    const filterExchange = 'BINANCE';
+    const filterExchange = 'BITSTAMP';
 
     const url = `${this.API_URL}/symbols/${filterExchange}?filter_asset_id=USD`;
 
-    const headers = new HttpHeaders({
-      'X-CoinAPI-Key': this.API_KEY,
-    });
-
-    return this.http.get<SymbolMetadataModel[]>(url, { headers });
+    return this.http.get<SymbolMetadataModel[]>(url, { headers: this.headers });
   }
 
   saveSymbols() {}
@@ -79,12 +74,8 @@ export class CryptoService {
     assetIdQuote: string
   ): Observable<number> {
     const url = `https://rest.coinapi.io/v1/exchangerate/${assetIdBase}/${assetIdQuote}`;
-    const headers = new HttpHeaders({
-      Accept: 'application/json',
-      'X-CoinAPI-Key': this.API_KEY,
-    });
 
-    return this.http.get<any>(url, { headers }).pipe(
+    return this.http.get<any>(url, { headers: this.headers }).pipe(
       map((response) => {
         if (response.rate) {
           return response.rate;

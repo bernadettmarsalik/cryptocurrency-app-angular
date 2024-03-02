@@ -12,7 +12,7 @@
         height="50%"
         width="50%"
         fill="url(#myGradient)"
-        class="border border-5 border-light rounded-circle mt-3"
+        class="border border-5 border-light rounded-circle mt-3 shadow"
       >
         <defs>
           <linearGradient id="myGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Navbar -->
-    <div>
+    <div class="w-100 shadow rounded-3">
       <ul class="list-group list-group-flush text-center">
         <a
           routerLink="/dashboard"
@@ -59,8 +59,8 @@
       </ul>
     </div>
     <!-- Websocket -->
-    <div class="container-fluid my-4">
-      <small>Websocket</small>
+    <div class="text-center bg-light rounded-3 p-3 mt-5 shadow w-100">
+      <app-websocket></app-websocket>
     </div>
   </div>
 </div>

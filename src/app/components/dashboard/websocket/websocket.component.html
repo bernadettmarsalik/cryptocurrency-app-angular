@@ -1,0 +1,52 @@
+<div class="crypto-list-container">
+  <table class="table table-flush text-center">
+    <tbody>
+      <tr
+        *ngFor="let data of websocketData"
+        class="d-flex justify-content-center align-items-end"
+      >
+        <td class="fw-bold">{{ data.cryptoId }}</td>
+        <td>
+          <div class="text-high d-flex flex-column">
+            <i class="fa-solid fa-arrow-trend-up" style="color: #b3005f"></i>
+            <span>
+              {{ data.high }}
+            </span>
+          </div>
+        </td>
+        <td>
+          <div class="text-low d-flex flex-column">
+            <i class="fa-solid fa-arrow-trend-down" style="color: #0740b0"></i
+            ><span>
+              {{ data.low }}
+            </span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <button
+      *ngIf="isOpen"
+      mat-mini-fab
+      matTooltip="Accent"
+      color="accent"
+      (click)="onClose()"
+      Close
+      Socket
+    >
+      <mat-icon>power_settings_new</mat-icon>
+    </button>
+    <button
+      *ngIf="!isOpen"
+      mat-mini-fab
+      matTooltip="Primary"
+      color="primary"
+      (click)="onGetData()"
+      Close
+      Socket
+    >
+      <mat-icon>power_settings_new</mat-icon>
+    </button>
+  </div>
+</div>

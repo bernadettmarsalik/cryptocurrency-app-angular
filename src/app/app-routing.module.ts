@@ -8,6 +8,7 @@ import { TabsComponent } from './components/dashboard/tabs/tabs.component';
 import { SidebarComponent } from './components/dashboard/sidebar/sidebar.component';
 import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
 import { WelcomeComponent } from './components/dashboard/welcome/welcome.component';
+import { WebsocketComponent } from './components/dashboard/websocket/websocket.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'tabs', component: TabsComponent },
       { path: 'add-crypto', component: AddCryptoComponent },
       { path: 'welcome', component: WelcomeComponent },
+      { path: 'websocket', component: WebsocketComponent },
       { path: '', redirectTo: 'tabs', pathMatch: 'full' },
     ],
   },

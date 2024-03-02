@@ -26,6 +26,7 @@ import { MatListModule } from '@angular/material/list';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { WelcomeComponent } from './components/dashboard/welcome/welcome.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { WebsocketComponent } from './components/dashboard/websocket/websocket.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CryptoComponent,
     AddCryptoComponent,
     WelcomeComponent,
+    WebsocketComponent,
   ],
   imports: [
     BrowserModule,
