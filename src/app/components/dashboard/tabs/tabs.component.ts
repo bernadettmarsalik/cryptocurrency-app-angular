@@ -237,7 +237,7 @@ export class TabsComponent implements OnInit, OnDestroy {
     if (this.cryptoAmount !== undefined) {
       // crypto  -> USD
       this.cryptoService
-        .getExchangeRate(this.selectedCrypto!, 'USD')
+        .getExchangeRate(this.selectedSymbolId!, 'USD')
         .subscribe({
           next: (exchangeRate: number) => {
             this.calculatedValue = this.cryptoAmount! * exchangeRate;
@@ -249,7 +249,7 @@ export class TabsComponent implements OnInit, OnDestroy {
     } else if (this.usdAmount !== undefined) {
       //  USD -> crypto
       this.cryptoService
-        .getExchangeRate('USD', this.selectedCrypto!)
+        .getExchangeRate('USD', this.selectedSymbolId!)
         .subscribe({
           next: (exchangeRate: number) => {
             this.calculatedValue = this.usdAmount! * exchangeRate;

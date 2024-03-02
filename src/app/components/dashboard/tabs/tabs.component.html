@@ -11,7 +11,7 @@
       >
       <mat-tab
         *ngFor="let crypto of displayedCryptos"
-        label="{{ selectedSymbolId }}"
+        label="{{ crypto.symbol_id }}"
       >
         <h2 class="my-2 text-center">Historical Charts</h2>
 
@@ -97,7 +97,7 @@
                       <div class="row">
                         <div class="col my-2">
                           <label for="cryptoInput" class="form-label"
-                            >Enter amount of {{ selectedCrypto }}</label
+                            >Enter amount of {{ selectedSymbolId }}</label
                           >
                           <input
                             class="form-control"
