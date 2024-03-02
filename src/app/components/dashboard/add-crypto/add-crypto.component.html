@@ -7,8 +7,8 @@
       class="row g-3 d-flex align-items-end justify-content-center"
     >
       <div class="col-md">
-        <label class="form-label" for="symbolId">Select Cryptocurrency:</label>
-        <select class="form-select" formControlName="symbolId" id="symbolId">
+        <label class="form-label" for="cryptoId">Select Cryptocurrency:</label>
+        <select class="form-select" formControlName="cryptoId" id="cryptoId">
           <option
             *ngFor="let coin of popularCoins; let i = index"
             [value]="coin"

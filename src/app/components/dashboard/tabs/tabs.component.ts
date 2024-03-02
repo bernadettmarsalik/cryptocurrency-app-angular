@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CryptoService } from '../../../services/crypto.service';
 import { SignUp } from '../../../models/SignUp.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { HistoricalDataModel } from '../../../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../../../models/SymbolMetadata.model';
 import { AuthService } from '../../../services/auth.service';
@@ -17,9 +17,8 @@ import { Router } from '@angular/router';
 })
 export class TabsComponent implements OnInit, OnDestroy {
   // cryptos$: Observable<HistoricalDataModel[]> = new Observable();
-  subCrypto?: Subscription;
-  subDeleteCrypto?: Subscription;
   symbol_id: string = '';
+  cryptoId: string = '';
   symbols: any[] = [];
   selectedSymbolId: string = '';
   displayedCryptos: HistoricalDataModel[] = [];
@@ -44,33 +43,36 @@ export class TabsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.cryptos$ = this.cryptoService.getHistoricalData(this.symbol_id);
-    this.selectedSymbolId = '';
-    this.selectedCrypto = '';
-
     this.user = this.authService.getLoggedUser();
 
     if (this.user && this.user.wallet.length > 0) {
       this.isDisplayedCryptosEmpty = false;
       this.walletLength = this.user.wallet.length;
       this.wallet = this.user.wallet;
-      this.wallet.forEach((crypto) => {
-        this.selectedSymbolId = crypto;
-
-        this.getHistoricalDataWithJson(this.selectedSymbolId);
+      this.wallet.forEach((cryptoId) => {
+        this.selectedSymbolId = cryptoId;
+        console.log(
+          'selectedSymbolId from ngOnInit is: ' + this.selectedSymbolId
+        );
       });
+      console.log(
+        'selectedSymbolId from ngOnInit is: ' + this.selectedSymbolId
+      );
+      this.getHistoricalDataWithApi();
     } else {
       console.log('No crypto added to wallet. Add one by click on "+" tab.');
     }
-    this.getChartDataForCurrentCryptoWithJson();
+    this.getChartDataForCurrentCrypto();
   }
 
   // ---------------------------------COINAPI------------------------------------------------------
 
-  getHistoricalData(symbol_id: string) {
-    this.cryptoService.getHistoricalData(symbol_id).subscribe({
+  getHistoricalDataWithApi() {
+    console.log('symbol_id from getHistoricalData ' + this.selectedSymbolId);
+    this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
         this.displayedCryptos = cryptos;
+        console.log('displayedCryptos', JSON.stringify(cryptos));
       },
       error: (err) => {
         console.log(err);
@@ -80,30 +82,21 @@ export class TabsComponent implements OnInit, OnDestroy {
       },
     });
   }
-  getUserSymbols() {
+
+  getUserSymbols(): void {
     this.user = this.authService.getLoggedUser();
 
     if (this.user && this.user.wallet.length > 0) {
       this.wallet = this.user.wallet;
       const userSymbols = this.wallet.join('_');
-
-      this.cryptoService.getUserSymbols(userSymbols).subscribe({
-        next: (symbols: SymbolMetadataModel[]) => {
-          this.symbols = symbols;
-          console.log('symbols:', symbols);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('Symbols request is done!');
-        },
-      });
     }
   }
+
   getChartDataForCurrentCrypto() {
     this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
+        'this.getChartDataForCurrentCrypto: selectedsymbolId' +
+          this.selectedSymbolId;
         this.chartData = this.transformDataForChart(
           cryptos as HistoricalDataModel[]
         );
@@ -119,7 +112,7 @@ export class TabsComponent implements OnInit, OnDestroy {
 
   // ---------------------------------JSON SERVER------------------------------------------------------
 
-  getHistoricalDataWithJson(symbol_id: string) {
+  getHistoricalDataWithJson(symbol_id: string): void {
     this.jsonService.getHistoricalData(symbol_id).subscribe({
       next: (cryptos: HistoricalDataModel[]) => {
         const foundCrypto = cryptos.find(
@@ -179,8 +172,6 @@ export class TabsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subCrypto?.unsubscribe();
-    this.subDeleteCrypto?.unsubscribe();
     this.selectedSymbolId = '';
     this.selectedCrypto = '';
   }
@@ -270,17 +261,27 @@ export class TabsComponent implements OnInit, OnDestroy {
     }
   }
 
-  extractCryptoPart(selectedSymbolId: string): string {
-    const parts = selectedSymbolId.split('_');
-    return parts[2];
+  // extractCryptoPart(selectedSymbolId: string): string {
+  //   const parts = selectedSymbolId.split('_');
+  //   return parts[2];
+  // }
+
+  //  tab váltásával más crypto chart
+  onTabChange(event: MatTabChangeEvent): void {
+    const selectedTabIndex = event.index;
+
+    if (selectedTabIndex >= 0 && selectedTabIndex < this.wallet.length) {
+      this.selectedSymbolId = this.wallet[selectedTabIndex];
+      this.selectedCrypto = this.extractCryptoPart(this.selectedSymbolId);
+      console.log(this.selectedCrypto + ' selectedcrypto');
+    } else {
+      console.error('Invalid selected tab index or wallet array.');
+    }
   }
 
-  // tab váltásával más crypto chart
-  onTabChange(event: MatTabChangeEvent): void {
-    const selectedTabSymbol = this.wallet[event.index];
-    this.selectedSymbolId = selectedTabSymbol;
-    this.selectedCrypto = this.extractCryptoPart(selectedTabSymbol);
-    console.log(this.selectedCrypto + ' selectedcrypto');
+  extractCryptoPart(selectedSymbolId: string): string {
+    const parts = selectedSymbolId.split('_');
+    return parts.length >= 3 ? parts[2] : '';
   }
 
   // modal

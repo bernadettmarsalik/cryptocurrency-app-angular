@@ -36,7 +36,7 @@ export class AddCryptoComponent implements OnInit {
     // this.symbols$ = this.cryptoService.getAllSymbols();
 
     this.addCryptoForm = new FormGroup({
-      symbolId: new FormControl('', [Validators.required]),
+      cryptoId: new FormControl('', [Validators.required]),
     });
   }
 
@@ -44,14 +44,13 @@ export class AddCryptoComponent implements OnInit {
     if (this.addCryptoForm.valid) {
       const users = this.getStoredUsers();
       const user = this.authService.getLoggedUser();
-      const symbolId = this.addCryptoForm.get('symbolId')?.value;
-      const symbolWalletData = `BINANCE_SPOT_${symbolId}_USD`;
+      const cryptoId = this.addCryptoForm.get('cryptoId')?.value;
 
       if (user) {
-        if (user.wallet.includes(symbolWalletData)) {
+        if (user.wallet.includes(cryptoId)) {
           alert('Crypto already added before!');
         } else {
-          user.wallet.push(symbolWalletData);
+          user.wallet.push(cryptoId);
           this.authService.updateUser(user);
           this.addCryptoForm.reset();
           this.submitMessage = 'Crypto added succesfully. ';

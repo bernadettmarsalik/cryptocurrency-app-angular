@@ -1,7 +1,3 @@
-export const USD_ASSET_ID = 'USD';
-export const EXCHANGE_ID_COINBASE = 'COINBASE';
-export const SYMBOL_TYPE_SPOT = 'SPOT';
-
 export interface SymbolMetadataModel {
   symbol_id: string;
   exchange_id: string;
