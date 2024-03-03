@@ -8,8 +8,8 @@ It has a built-in cryptocurrency exchange module that converts crypto to USD.
 
 Use the package manager npm to install package dependencies for this project.
 
-```bash
-npm i
+```
+npm install
 ```
 
 ## Usage
