@@ -6,3 +6,13 @@ html {
   padding: 0;
   box-sizing: border-box;
 }
+
+.card-title {
+  color: #283593;
+  letter-spacing: 5px !important;
+}
+
+.circle-img:hover {
+  transition: all 3.5s;
+  transform: rotateY(360deg);
+}

@@ -1,14 +1,14 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { HistoricalDataModel } from '../models/HistoricalData.model';
 import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
-import { popularCoins } from '../../assets/popularCoins';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JsonService {
+  // Ezt a szervizt teszteléshez hoztam létre
   private readonly API_JSON_URL = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}

@@ -1,14 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  Observable,
-  catchError,
-  delay,
-  forkJoin,
-  map,
-  tap,
-  throwError,
-} from 'rxjs';
+import { Observable, catchError, forkJoin, map, throwError } from 'rxjs';
 import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
 import { HistoricalDataModel } from '../models/HistoricalData.model';
 import { AuthService } from './auth.service';
@@ -22,10 +14,7 @@ export class CryptoService {
   private readonly headers = {
     Accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'X-CoinAPI-Key':
-      // '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9',
-      'D7DF9194-3BC1-46B3-B0B3-BB90F1FAF25E',
-    // "92D803FB-637A-4A9E-83B5-15B457DF2C9B"
+    'X-CoinAPI-Key': this.API_KEY,
   };
 
   constructor(private http: HttpClient, private authService: AuthService) {}

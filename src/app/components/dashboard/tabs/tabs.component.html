@@ -17,7 +17,7 @@
           Historical Charts for {{ cryptoId }}
         </h2>
 
-        <div style="max-height: fit-content">
+        <div style="max-height: fit-content" class="w-100">
           <ngx-charts-line-chart
             [scheme]="'nightLights'"
             [results]="chartData"
@@ -34,16 +34,18 @@
             (deactivate)="onDeactivate($event)"
           >
           </ngx-charts-line-chart>
-          <span class="card-title">Options: </span>
-          <button
-            mat-mini-fab
-            matTooltip="Delete Crypto"
-            color="warn"
-            aria-label="Example icon-button with a heart icon"
-            (click)="onDelete(cryptoId)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
+          <div class="mt-3">
+            <span class="card-title">Options: </span>
+            <button
+              mat-mini-fab
+              matTooltip="Delete Crypto"
+              color="warn"
+              aria-label="Example icon-button with a heart icon"
+              (click)="onDelete(cryptoId)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
 
         <div class="container mt-5 d-flex justify-content-center">

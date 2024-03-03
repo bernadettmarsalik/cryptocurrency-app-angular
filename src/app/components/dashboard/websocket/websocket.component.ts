@@ -33,7 +33,7 @@ export class WebsocketComponent implements OnInit, OnDestroy {
 
       this.websocketData.forEach((crypto) => {
         this.webSocketService
-          .gettingCurrentData(crypto.cryptoId)
+          .getWebSocketData(crypto.cryptoId)
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe((currentData: any) => {
             crypto.high = currentData.price_high;
@@ -66,7 +66,7 @@ export class WebsocketComponent implements OnInit, OnDestroy {
           let low = message.price_low;
 
           this.webSocketService
-            .gettingCurrentData(cryptoId)
+            .getWebSocketData(cryptoId)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
               next: (data: any) => {

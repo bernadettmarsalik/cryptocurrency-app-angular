@@ -5,7 +5,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
 import { CryptoComponent } from './components/dashboard/crypto/crypto.component';
 import { TabsComponent } from './components/dashboard/tabs/tabs.component';
-import { SidebarComponent } from './components/dashboard/sidebar/sidebar.component';
 import { AddCryptoComponent } from './components/dashboard/add-crypto/add-crypto.component';
 import { WelcomeComponent } from './components/dashboard/welcome/welcome.component';
 import { WebsocketComponent } from './components/dashboard/websocket/websocket.component';
