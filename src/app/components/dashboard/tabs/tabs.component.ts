@@ -114,6 +114,7 @@ export class TabsComponent implements OnInit, OnDestroy {
   showYAxisLabel: boolean = true;
   xAxisLabel: string = 'Time Period Start';
   yAxisLabel: string = 'Price Close';
+  timeline: boolean = true;
 
   onSelect(data: HistoricalDataModel): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
@@ -129,6 +130,11 @@ export class TabsComponent implements OnInit, OnDestroy {
 
   transformDataForChart(cryptoData: HistoricalDataModel[]): any[] {
     console.log('Input data:', cryptoData);
+    cryptoData.sort((a, b) => {
+      const dateA = new Date(a.time_period_start).getTime();
+      const dateB = new Date(b.time_period_start).getTime();
+      return dateA - dateB;
+    });
 
     const chartData = [
       {

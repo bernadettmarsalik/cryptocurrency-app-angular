@@ -11,52 +11,12 @@
     >
       <mat-tab
         *ngFor="let cryptoId of wallet; let i = index"
-        label="{{ cryptoId }}"
+        label="{{ cryptoId }} "
       >
-        <h2 class="my-2 text-center">Historical Charts</h2>
-        <!-- 
-        <table class="table table-striped text-center">
-          <thead>
-            <tr>
-              <th>Exchange</th>
-              <th>Price Close</th>
-              <th>Period start</th>
-              <th>Period end</th>
-              <th>Price high</th>
-              <th>Price low</th>
-              <th>Price close</th>
-              <th>Volume traded</th>
-              <th>Trades count</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let crypto of displayedCryptos$ | async">
-              <td>
-                <small>BITSTAMP SPOT </small> {{ selectedSymbolId }} / USD
-              </td>
-              <td>{{ crypto.price_close }}</td>
-              <td>{{ crypto.time_period_start | date }}</td>
-              <td>{{ crypto.time_period_end | date }}</td>
-              <td>{{ crypto.price_high }}</td>
-              <td>{{ crypto.price_low }}</td>
-              <td>{{ crypto.price_close }}</td>
-              <td>{{ crypto.volume_traded }}</td>
-              <td>{{ crypto.trades_count }}</td>
-              <td>
-                <button
-                  mat-mini-fab
-                  matTooltip="Delete Crypto"
-                  color="warn"
-                  aria-label="Example icon-button with a heart icon"
-                  (click)="onDelete(crypto.symbol_id)"
-                  class="me-2"
-                >
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
+        <h2 class="my-2 me-3 text-center card-title">
+          Historical Charts for {{ cryptoId }}
+        </h2>
+
         <div style="max-height: fit-content">
           <ngx-charts-line-chart
             [scheme]="'nightLights'"
@@ -74,7 +34,18 @@
             (deactivate)="onDeactivate($event)"
           >
           </ngx-charts-line-chart>
+          <span class="card-title">Options: </span>
+          <button
+            mat-mini-fab
+            matTooltip="Delete Crypto"
+            color="warn"
+            aria-label="Example icon-button with a heart icon"
+            (click)="onDelete(cryptoId)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
+
         <div class="container mt-5 d-flex justify-content-center">
           <div class="row row-cols-1 row-cols-md-2 g-5">
             <div class="col">
@@ -83,7 +54,7 @@
                   <div class="container col-md p-4">
                     <img
                       src="../../../../assets/usd.jpg"
-                      class="img-fluid rounded-circle mt-5 w-75"
+                      class="img-fluid rounded-circle mt-5 w-75 circle-img"
                       alt="..."
                     />
                   </div>
@@ -157,7 +128,7 @@
                   <div class="col-md">
                     <img
                       src="../../../../assets/coins.jpg"
-                      class="img-fluid rounded-circle p-2"
+                      class="img-fluid rounded-circle p-2 circle-img"
                       alt="..."
                     />
                     <h3 class="text-uppercase">Buy</h3>
@@ -165,7 +136,7 @@
                   <div class="col-md">
                     <img
                       src="../../../../assets/piggybank.jpg"
-                      class="img-fluid rounded-circle p-2"
+                      class="img-fluid rounded-circle p-2 circle-img"
                       alt="..."
                     />
                     <h3 class="text-uppercase">Stock</h3>
@@ -173,7 +144,7 @@
                   <div class="col-md">
                     <img
                       src="../../../../assets/money.jpg"
-                      class="img-fluid rounded-circle p-2"
+                      class="img-fluid rounded-circle p-2 circle-img"
                       alt="..."
                     />
                     <h3 class="text-uppercase">Trade</h3>
