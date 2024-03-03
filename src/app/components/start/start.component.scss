@@ -2,6 +2,12 @@
   box-sizing: border-box;
 }
 
+.component {
+  background-image: url("../../../assets/background.jpg");
+  background-size: 300%;
+  background-repeat: no-repeat;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -106,12 +112,12 @@ form {
 
 .overlay {
   background: #ffff;
-  background: -webkit-linear-gradient(to left, #5369e3, #ff4081);
-  background: linear-gradient(to left, #5369e3, #ff4081);
+  // background: -webkit-linear-gradient(to left, #5369e3, #ff4081);
+  // background: linear-gradient(to left, #5369e3, #ff4081);
+  background-image: url("../../../assets/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
-  backdrop-filter: blur(10px);
   color: #ffffff;
   position: relative;
   left: -100%;
@@ -155,4 +161,13 @@ form {
 
 .container.right-panel-active .overlay-right {
   transform: translateX(20%);
+}
+
+.overlay-content {
+  backdrop-filter: blur(10px);
+}
+
+.title {
+  color: #283593;
+  letter-spacing: 5px;
 }
