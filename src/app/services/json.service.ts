@@ -36,6 +36,4 @@ export class JsonService {
     const url = `${this.API_JSON_URL}/symbols?filter_symbol_id=${filterSymbolId}&filter_asset_id=USD`;
     return this.http.get<SymbolMetadataModel[]>(url);
   }
-
-  saveSymbols() {}
 }

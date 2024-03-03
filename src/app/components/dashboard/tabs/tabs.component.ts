@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JsonService } from '../../../services/json.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -76,25 +76,12 @@ export class TabsComponent implements OnInit, OnDestroy {
         'No crypto added to the wallet. Add one by clicking on the "+" tab.'
       );
     }
+
+    console.log('Chart Data:', this.chartData);
   }
 
   // ---------------------------------COINAPI------------------------------------------------------
 
-  // getHistoricalDataWithApi() {
-  //   console.log('symbol_id from getHistoricalData ' + this.selectedSymbolId);
-  //   this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
-  //     next: (cryptos: HistoricalDataModel[]) => {
-  //       this.displayedCryptos = cryptos;
-  //       console.log('displayedCryptos', JSON.stringify(cryptos));
-  //     },
-  //     error: (err) => {
-  //       console.log(err);
-  //     },
-  //     complete: () => {
-  //       console.log('Crypto request is done!');
-  //     },
-  //   });
-  // }
   getHistoricalDataWithApi(): Observable<HistoricalDataModel[]> {
     return this.cryptoService.getHistoricalData(this.selectedSymbolId);
   }
@@ -104,7 +91,6 @@ export class TabsComponent implements OnInit, OnDestroy {
 
     if (this.user && this.user.wallet.length > 0) {
       this.wallet = this.user.wallet;
-      const userSymbols = this.wallet.join('_');
     }
   }
 
@@ -116,6 +102,132 @@ export class TabsComponent implements OnInit, OnDestroy {
     this.selectedSymbolId = '';
     this.selectedCrypto = '';
   }
+
+  // ---------------------------------NGX CHARTS------------------------------------------------------
+  // NGX CHART options
+  chartData: HistoricalDataModel[] = [];
+  gradient: boolean = false;
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  showLegend: boolean = true;
+  showXAxisLabel: boolean = true;
+  showYAxisLabel: boolean = true;
+  xAxisLabel: string = 'Time Period Start';
+  yAxisLabel: string = 'Price Close';
+
+  onSelect(data: HistoricalDataModel): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data: HistoricalDataModel): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data: HistoricalDataModel): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+
+  transformDataForChart(cryptoData: HistoricalDataModel[]): any[] {
+    console.log('Input data:', cryptoData);
+
+    const chartData = [
+      {
+        name: 'Price Open',
+        series: cryptoData.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_open,
+        })),
+      },
+      {
+        name: 'Price Low',
+        series: cryptoData.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_low,
+        })),
+      },
+      {
+        name: 'Price Close',
+        series: cryptoData.map((crypto) => ({
+          name: new Date(crypto.time_period_start).toLocaleDateString(),
+          value: crypto.price_close,
+        })),
+      },
+    ];
+
+    console.log('Transformed data:', chartData);
+
+    return chartData;
+  }
+
+  getChartDataForCurrentCrypto() {
+    this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
+      next: (cryptos: HistoricalDataModel[]) => {
+        this.chartData = this.transformDataForChart(cryptos as any[]);
+        console.log('chartData' + this.chartData);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Chart data request is done!');
+      },
+    });
+  }
+
+  // váltó
+  calculateValue(): void {
+    if (this.cryptoAmount !== undefined) {
+      // crypto  -> USD
+      this.cryptoService
+        .getExchangeRate(this.selectedSymbolId!, 'USD')
+        .subscribe({
+          next: (exchangeRate: number) => {
+            this.calculatedValue = this.cryptoAmount! * exchangeRate;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    } else if (this.usdAmount !== undefined) {
+      //  USD -> crypto
+      this.cryptoService
+        .getExchangeRate('USD', this.selectedSymbolId!)
+        .subscribe({
+          next: (exchangeRate: number) => {
+            this.calculatedValue = this.usdAmount! * exchangeRate;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    }
+  }
+
+  // tab váltásával más crypto chart
+  onTabChange(event: MatTabChangeEvent): void {
+    const selectedTabIndex = event.index;
+
+    if (selectedTabIndex >= 0 && selectedTabIndex < this.wallet.length) {
+      this.selectedSymbolId = this.wallet[selectedTabIndex];
+      console.log(this.selectedSymbolId + ' selectedSymbolId');
+
+      this.getChartDataForCurrentCrypto();
+    } else {
+      console.error('Invalid selected tab index or wallet array.');
+    }
+  }
+
+  // modal
+  openBootstrapModal(content: any) {
+    this.modalService.open(content, { centered: true });
+  }
+
+  // delete
+  onDelete(symbol_id: string): void {
+    this.cryptoService.onDelete(symbol_id);
+    this.router.navigateByUrl('/dashboard');
+  }
+
   // ---------------------------------JSON SERVER------------------------------------------------------
 
   getHistoricalDataWithJson(symbol_id: string): void {
@@ -175,138 +287,5 @@ export class TabsComponent implements OnInit, OnDestroy {
         console.log('Chart data request is done!');
       },
     });
-  }
-
-  // ---------------------------------NGX CHARTS------------------------------------------------------
-  // NGX CHART options
-  chartData: HistoricalDataModel[] = [];
-  gradient: boolean = false;
-  showXAxis: boolean = true;
-  showYAxis: boolean = true;
-  showLegend: boolean = true;
-  showXAxisLabel: boolean = true;
-  showYAxisLabel: boolean = true;
-  xAxisLabel: string = 'Time Period Start';
-  yAxisLabel: string = 'Price Close';
-
-  onSelect(data: HistoricalDataModel): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data: HistoricalDataModel): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: HistoricalDataModel): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
-
-  transformDataForChart(cryptos: HistoricalDataModel[]): any[] {
-    const selectedCryptoData = cryptos.filter(
-      (crypto) => crypto.symbol_id === this.selectedSymbolId
-    );
-
-    return [
-      {
-        name: 'Price Open',
-        series: selectedCryptoData.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_open,
-        })),
-      },
-      {
-        name: 'Price Low',
-        series: selectedCryptoData.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_low,
-        })),
-      },
-      {
-        name: 'Price Close',
-        series: selectedCryptoData.map((crypto) => ({
-          name: new Date(crypto.time_period_start).toLocaleDateString(),
-          value: crypto.price_close,
-        })),
-      },
-    ];
-  }
-
-  getChartDataForCurrentCrypto() {
-    this.cryptoService.getHistoricalData(this.selectedSymbolId).subscribe({
-      next: (cryptos: HistoricalDataModel[]) => {
-        console.log(
-          'this.getChartDataForCurrentCrypto: selectedsymbolId' +
-            this.selectedSymbolId
-        );
-        this.chartData = this.transformDataForChart(
-          cryptos as HistoricalDataModel[]
-        );
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('Chart data request is done!');
-      },
-    });
-  }
-
-  // váltó
-  calculateValue(): void {
-    if (this.cryptoAmount !== undefined) {
-      // crypto  -> USD
-      this.cryptoService
-        .getExchangeRate(this.selectedSymbolId!, 'USD')
-        .subscribe({
-          next: (exchangeRate: number) => {
-            this.calculatedValue = this.cryptoAmount! * exchangeRate;
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    } else if (this.usdAmount !== undefined) {
-      //  USD -> crypto
-      this.cryptoService
-        .getExchangeRate('USD', this.selectedSymbolId!)
-        .subscribe({
-          next: (exchangeRate: number) => {
-            this.calculatedValue = this.usdAmount! * exchangeRate;
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    }
-  }
-
-  // extractCryptoPart(selectedSymbolId: string): string {
-  //   const parts = selectedSymbolId.split('_');
-  //   return parts[2];
-  // }
-
-  // tab váltásával más crypto chart
-  onTabChange(event: MatTabChangeEvent): void {
-    const selectedTabIndex = event.index;
-
-    if (selectedTabIndex >= 0 && selectedTabIndex < this.wallet.length) {
-      this.selectedSymbolId = this.wallet[selectedTabIndex];
-      console.log(this.selectedSymbolId + ' selectedSymbolId');
-
-      this.getChartDataForCurrentCrypto();
-    } else {
-      console.error('Invalid selected tab index or wallet array.');
-    }
-  }
-
-  // modal
-  openBootstrapModal(content: any) {
-    this.modalService.open(content, { centered: true });
-  }
-
-  // delete
-  onDelete(symbol_id: string): void {
-    this.cryptoService.onDelete(symbol_id);
-    this.router.navigateByUrl('/dashboard');
   }
 }

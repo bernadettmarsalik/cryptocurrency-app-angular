@@ -1,6 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, forkJoin, map, tap, throwError } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  delay,
+  forkJoin,
+  map,
+  tap,
+  throwError,
+} from 'rxjs';
 import { SymbolMetadataModel } from '../models/SymbolMetadata.model';
 import { HistoricalDataModel } from '../models/HistoricalData.model';
 import { AuthService } from './auth.service';
@@ -14,7 +22,10 @@ export class CryptoService {
   private readonly headers = {
     Accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'X-CoinAPI-Key': '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9',
+    'X-CoinAPI-Key':
+      // '4E8C07B5-B5DA-4AC4-B8D4-3B9A9E2358B9',
+      'D7DF9194-3BC1-46B3-B0B3-BB90F1FAF25E',
+    // "92D803FB-637A-4A9E-83B5-15B457DF2C9B"
   };
 
   constructor(private http: HttpClient, private authService: AuthService) {}
@@ -24,10 +35,6 @@ export class CryptoService {
     const url = `http://api.coinapi.io/v1/ohlcv/BITSTAMP_SPOT_${cryptoId}_USD/history?period_id=1DAY&limit=7`;
 
     return this.http.get<HistoricalDataModel[]>(url, { headers: this.headers });
-  }
-
-  getHistoricalDataByExchange(cryptoId: string) {
-    const url = `${this.API_URL}/exchangerate/${cryptoId}/USD/history?period_id=7DAY`;
   }
 
   getSymbolsDataForWallet(wallet: string[]): Observable<any[]> {
@@ -45,8 +52,6 @@ export class CryptoService {
 
     return this.http.get<SymbolMetadataModel[]>(url, { headers: this.headers });
   }
-
-  saveSymbols() {}
 
   // Delete
   onDelete(symbol_id: string): void {
