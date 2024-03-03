@@ -54,7 +54,6 @@ export class WebsocketComponent implements OnInit, OnDestroy {
   // adatlekérés a websocketről
   onGetData() {
     this.isOpen = true;
-
     this.webSocketService.getData(this.wallet!);
     this.webSocketService.webSocket$
       .pipe(
@@ -102,8 +101,8 @@ export class WebsocketComponent implements OnInit, OnDestroy {
         },
         () => {
           console.log('Websocket closed');
+          // ha még mindig nyitva maradna kapcsolódjon újra
           if (this.isOpen) {
-            // If still open, restart the connection
             this.onGetData();
           }
         }

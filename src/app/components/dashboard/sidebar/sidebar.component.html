@@ -24,15 +24,17 @@
           d="M256 288A144 144 0 1 0 256 0a144 144 0 1 0 0 288zm-94.7 32C72.2 320 0 392.2 0 481.3c0 17 13.8 30.7 30.7 30.7H481.3c17 0 30.7-13.8 30.7-30.7C512 392.2 439.8 320 350.7 320H161.3z"
         />
       </svg>
-      <div class="text-center bg-light rounded-3 p-3 mt-2 shadow w-100">
+      <div
+        class="text-center bg-light bg-opacity-50 rounded-3 p-3 mt-2 shadow w-100"
+      >
         <p class="fs-3 mb-3">{{ this.loggedUser?.username }}</p>
         <p class="fs-5">{{ this.loggedUser?.email }}</p>
       </div>
     </div>
 
     <!-- Navbar -->
-    <div class="w-100 shadow rounded-3">
-      <ul class="list-group list-group-flush text-center">
+    <div class="w-100 bg-light bg-opacity-25">
+      <ul class="list-group list-group-flush text-center rounded-3 shadow">
         <a
           routerLink="/dashboard"
           class="list-group-item list-group-item-action list-group-item-light border"
@@ -52,14 +54,21 @@
           class="list-group-item list-group-item-action list-group-item-light border"
           >Add Crypto</a
         >
-        <button mat-stroked-button (click)="onLogOut()">
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="onLogOut()"
+          matTooltip="Back to LogIn"
+        >
           <mat-icon>power_settings_new</mat-icon>
           Log Out
         </button>
       </ul>
     </div>
     <!-- Websocket -->
-    <div class="text-center bg-light rounded-3 p-3 mt-5 shadow w-100">
+    <div
+      class="text-center rounded-3 bg-light bg-opacity-50 p-3 mt-5 shadow w-100"
+    >
       <app-websocket></app-websocket>
     </div>
   </div>

@@ -1,35 +1,25 @@
-<div class="crypto-list-container">
-  <table class="table table-flush text-center">
-    <tbody>
-      <tr
-        *ngFor="let data of websocketData"
-        class="d-flex justify-content-center align-items-end"
-      >
-        <td class="fw-bold">{{ data.cryptoId }}</td>
-        <td>
-          <div class="text-high d-flex flex-column">
-            <i class="fa-solid fa-arrow-trend-up" style="color: #b3005f"></i>
-            <span>
-              {{ data.high }}
-            </span>
-          </div>
-        </td>
-        <td>
-          <div class="text-low d-flex flex-column">
-            <i class="fa-solid fa-arrow-trend-down" style="color: #0740b0"></i
-            ><span>
-              {{ data.low }}
-            </span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="crypto-list-container w-100">
+  <ul class="list-group list-group-flush text-center rounded-3 mb-3 w-100">
+    <li
+      *ngFor="let data of websocketData"
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <span class="fw-bold">{{ data.cryptoId }}</span>
+      <div class="text-high mx-2 d-flex flex-column flex-md-row">
+        <i class="fa-solid fa-arrow-trend-up me-2" style="color: #b3005f"></i>
+        <span> {{ data.high }}</span>
+      </div>
+      <div class="text-low d-flex flex-column flex-md-row">
+        <i class="fa-solid fa-arrow-trend-down me-2" style="color: #0740b0"></i>
+        <span> {{ data.low }}</span>
+      </div>
+    </li>
+  </ul>
   <div>
     <button
       *ngIf="isOpen"
       mat-mini-fab
-      matTooltip="Accent"
+      matTooltip="Pause Data"
       color="accent"
       (click)="onClose()"
       Close
@@ -40,7 +30,7 @@
     <button
       *ngIf="!isOpen"
       mat-mini-fab
-      matTooltip="Primary"
+      matTooltip="Start Data"
       color="primary"
       (click)="onGetData()"
       Close
