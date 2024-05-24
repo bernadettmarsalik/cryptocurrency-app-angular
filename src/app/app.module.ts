@@ -27,6 +27,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { WelcomeComponent } from './components/dashboard/welcome/welcome.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WebsocketComponent } from './components/dashboard/websocket/websocket.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,7 @@ import { WebsocketComponent } from './components/dashboard/websocket/websocket.c
     NgxChartsModule,
     MatTooltipModule,
   ],
-  providers: [provideAnimationsAsync(), AuthService],
+  providers: [provideAnimationsAsync(), AuthService, provideFirebaseApp(() => initializeApp({"projectId":"piggywallet-22950","appId":"1:581351356406:web:9a804f190823b5708f39d7","storageBucket":"piggywallet-22950.appspot.com","apiKey":"AIzaSyAEDe3ay3RYZt-qiWu_dShFr2n-J_BEqRY","authDomain":"piggywallet-22950.firebaseapp.com","messagingSenderId":"581351356406","measurementId":"G-F5YTETK2HK"})), provideAuth(() => getAuth())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
